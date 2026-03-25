@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, j
 import pickle
 
 app = Flask(__name__)
-app.secret_key = "secret_key"
+app.secret_key = "secure key"
 
 # ------------------- USERS -------------------
 users = {"admin": "1234"}
