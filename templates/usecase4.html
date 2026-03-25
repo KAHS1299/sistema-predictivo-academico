@@ -1,27 +1,171 @@
-<h2>Chatbot for Customer Support</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot ML</title>
 
-<p><b>Problem Description:</b> 
-The goal is to automatically respond to user inquiries in real time, reducing the need for human intervention 
-in repetitive customer service tasks.
-</p>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
+        }
 
-<p><b>Type of Machine Learning:</b> 
-Natural Language Processing (NLP)
-</p>
+        .container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
 
-<p><b>Input Data:</b>
-<ul>
-    <li>User text messages</li>
-    <li>Frequently asked questions database</li>
-    <li>Conversation history</li>
-</ul>
-</p>
+        .card {
+            background: white;
+            color: black;
+            width: 550px;
+            padding: 25px;
+            border-radius: 15px;
+        }
 
-<p><b>Expected Output:</b> 
-Automated responses that simulate human conversation and provide useful information.
-</p>
+        .chat-box {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
 
-<p><b>Real-world Relevance:</b> 
-Chatbots are widely used in e-commerce, banking, and customer service platforms 
-to improve response time, reduce costs, and enhance user experience.
-</p>
+        .msg {
+            padding: 8px;
+            margin: 5px;
+            border-radius: 10px;
+            max-width: 70%;
+        }
+
+        .user {
+            background: #dcf8c6;
+            text-align: right;
+            margin-left: auto;
+        }
+
+        .bot {
+            background: #eee;
+        }
+
+        input {
+            width: 75%;
+            padding: 10px;
+        }
+
+        button {
+            padding: 10px;
+            background: #11998e;
+            color: white;
+            border: none;
+        }
+
+        .back-btn {
+            display: block;
+            margin: 40px auto;
+            width: 220px;
+            text-align: center;
+            padding: 12px;
+            border-radius: 25px;
+            background: white;
+            color: #7b2ff7;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .back {
+            display: block;
+            text-align: center;
+            margin: 30px;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- 📚 DESCRIPCIÓN -->
+    <div class="card">
+        <h2>🤖 Intelligent Chatbot</h2>
+
+        <p><b>Problem Description:</b><br>
+        The goal is to automatically understand user messages and provide meaningful responses. 
+        Traditional systems require human interaction, which increases response time and cost.
+        </p>
+
+        <p><b>Type of Machine Learning:</b><br>
+        Supervised Learning (Natural Language Processing - Text Classification)
+        </p>
+
+        <p><b>Input Data:</b></p>
+        <ul>
+            <li>User text messages</li>
+            <li>Keywords and patterns</li>
+        </ul>
+
+        <p><b>Expected Output:</b><br>
+        A predicted response based on the user’s intent.
+        </p>
+
+        <p><b>Real-world Relevance:</b><br>
+        Chatbots are widely used in banking, e-commerce, and customer support 
+        to automate responses, reduce costs, and improve user experience.
+        </p>
+    </div>
+
+    <!-- CHAT -->
+    <div class="card">
+        <h2>💬 Chatbot</h2>
+
+        <div class="chat-box" id="chatBox"></div>
+
+        <input type="text" id="msg" placeholder="Type a message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+</div>
+
+<!-- BOTÓN BACK -->
+<a href="/dashboard" class="back-btn">⬅ Back to Dashboard</a>
+
+
+<script>
+function sendMessage() {
+    let msg = document.getElementById("msg").value;
+    let chatBox = document.getElementById("chatBox");
+
+    if (msg === "") return;
+
+    let userDiv = document.createElement("div");
+    userDiv.className = "msg user";
+    userDiv.innerText = msg;
+    chatBox.appendChild(userDiv);
+
+    fetch("/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({message: msg})
+    })
+    .then(res => res.json())
+    .then(data => {
+        let botDiv = document.createElement("div");
+        botDiv.className = "msg bot";
+        botDiv.innerText = data.reply;
+        chatBox.appendChild(botDiv);
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+    });
+
+    document.getElementById("msg").value = "";
+}
+</script>
+
+</body>
+</html>

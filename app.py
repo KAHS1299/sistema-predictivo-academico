@@ -65,14 +65,11 @@ def predict():
         hours = float(request.form["hours"])
         failed = int(request.form["failed"])
 
-        # Load model
         with open("model.pkl", "rb") as f:
             model = pickle.load(f)
 
-        # Input data
         X_new = [[gpa, courses, hours, failed]]
 
-        # Prediction
         risk_class = model.predict(X_new)[0]
         risk_prob = model.predict_proba(X_new)[0][1]
 
@@ -84,33 +81,8 @@ def predict():
     except Exception as e:
         return render_template("linear.html", prediction=f"Error: {str(e)}")
 
-# ------------------- SPAM DETECTION -------------------
-@app.route("/spam", methods=["POST"])
-def spam():
-    email_text = request.form["correo"]
 
-    spam_result = "Likely SPAM" if "gratis" in email_text.lower() else "Not SPAM"
-
-    return render_template("dashboard.html", spam_result=spam_result)
-
-
-# ------------------- CHATBOT -------------------
-@app.route("/chat", methods=["POST"])
-def chat():
-    data = request.get_json()
-    user_message = data["message"]
-
-    reply = f"I received your message: {user_message}"
-
-    return jsonify({"reply": reply})
-
-
-# ------------------- LOGOUT -------------------
-@app.route("/logout")
-def logout():
-    session.pop("user", None)
-    return redirect(url_for("login"))
-#----------------------------------------------
+# ------------------- USE CASE 1 -------------------
 @app.route("/predict_house", methods=["POST"])
 def predict_house():
     size = float(request.form["size"])
@@ -120,9 +92,66 @@ def predict_house():
     price = (size * 3000) + (rooms * 5000) - (age * 1000)
 
     result = f"Estimated Price: ${price}"
-
     return render_template("usecase1.html", result=result)
-# ------------------- RUN APP -------------------
+
+
+# ------------------- USE CASE 2 -------------------
+@app.route("/predict_health", methods=["POST"])
+def predict_health():
+    age = int(request.form["age"])
+    heart = int(request.form["heart"])
+    pressure = int(request.form["pressure"])
+
+    if heart > 100 or pressure > 140:
+        result = "⚠️ High risk of disease"
+    else:
+        result = "✅ Healthy"
+
+    return render_template("usecase2.html", result=result)
+
+
+# ------------------- USE CASE 3 -------------------
+@app.route("/predict_student", methods=["POST"])
+def predict_student():
+    hours = float(request.form["hours"])
+    attendance = float(request.form["attendance"])
+    grades = float(request.form["grades"])
+
+    if hours > 2 and attendance > 70 and grades > 3:
+        result = "🎉 Pass"
+    else:
+        result = "❌ Fail"
+
+    return render_template("usecase3.html", result=result)
+
+
+# ------------------- CHATBOT -------------------
+@app.route("/chat", methods=["POST"])
+def chat():
+    data = request.get_json()
+    msg = data["message"].lower()
+
+    if "hello" in msg:
+        reply = "Hi! How can I help you?"
+    elif "price" in msg:
+        reply = "You can use the house prediction model."
+    elif "health" in msg:
+        reply = "Try the medical diagnosis model."
+    elif "student" in msg:
+        reply = "Use the student performance model."
+    else:
+        reply = "I am your ML assistant 🤖"
+
+    return jsonify({"reply": reply})
+
+
+# ------------------- LOGOUT -------------------
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect(url_for("login"))
+
+
+# ------------------- RUN -------------------
 if __name__ == "__main__":
     app.run(debug=True)
-

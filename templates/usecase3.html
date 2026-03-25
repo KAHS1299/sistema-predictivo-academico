@@ -1,28 +1,143 @@
-<h2>Student Performance Prediction</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Use Case 3</title>
 
-<p><b>Problem Description:</b> 
-The objective is to predict a student’s academic performance based on study habits and academic history. 
-Many institutions struggle to identify students at risk of failure in time.
-</p>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: linear-gradient(135deg, #36d1dc, #5b86e5);
+            color: white;
+        }
 
-<p><b>Type of Machine Learning:</b> 
-Supervised Learning (Regression)
-</p>
+        .main {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+            animation: fadeIn 1s;
+        }
 
-<p><b>Input Data:</b>
-<ul>
-    <li>Grade Point Average (GPA)</li>
-    <li>Number of enrolled courses</li>
-    <li>Study hours per week</li>
-    <li>Number of failed subjects</li>
-</ul>
-</p>
+        .card {
+            background: white;
+            color: black;
+            width: 550px;
+            padding: 25px;
+            border-radius: 15px;
+        }
 
-<p><b>Expected Output:</b> 
-A predicted performance score or risk level (High or Low academic risk).
-</p>
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 8px;
+        }
 
-<p><b>Real-world Relevance:</b> 
-Educational institutions can use this model to identify at-risk students early 
-and provide academic support, improving retention rates and student success.
-</p>
+        button {
+            width: 95%;
+            padding: 12px;
+            background: #36d1dc;
+            color: white;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .result {
+            margin-top: 10px;
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .back-btn {
+            display: block;
+            margin: 40px auto;
+            width: 220px;
+            text-align: center;
+            padding: 12px;
+            border-radius: 25px;
+            background: white;
+            color: #7b2ff7;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .back {
+            display: block;
+            text-align: center;
+            margin: 30px;
+            color: white;
+            font-weight: bold;
+        }
+
+        @keyframes fadeIn {
+            from {opacity:0;}
+            to {opacity:1;}
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="main">
+
+    <div class="card">
+        <h2>🎓 Student Performance</h2>
+
+       <p><b>Problem Description:</b><br>
+        The goal of this use case is to predict whether a student is likely to pass or fail based on academic behavior and study patterns. 
+        Educational institutions often struggle to identify students at risk of failure early enough. 
+        This model helps detect low-performance trends and supports timely intervention.
+        </p>
+
+        <p><b>Type of Machine Learning:</b><br>
+        Supervised Learning (Classification / Regression)<br>
+        The system learns from historical student data where performance outcomes are already known.
+        </p>
+
+
+        <<p><b>Input Data:</b></p>
+        <ul>
+        <li>Study hours per day</li>
+        <li>Attendance percentage</li>
+        <li>Previous grades or GPA</li>
+        <li>Number of completed assignments</li>
+        </ul>
+
+        <p><b>Expected Output:</b><br>
+        A prediction indicating whether the student will <b>Pass</b> or <b>Fail</b>, or a performance level (High / Medium / Low).
+        </p>
+
+        <p><b>Real-world Relevance:</b><br>
+        This model can be used by schools and universities to monitor student progress and identify those who need academic support. 
+        It improves retention rates, enhances learning outcomes, and enables data-driven decision-making in education.
+        </p>
+        </div>
+
+    <div class="card">
+        <h2>Prediction</h2>
+
+        <form action="/predict_student" method="post">
+            <input type="text" name="hours" placeholder="Study Hours">
+            <input type="text" name="attendance" placeholder="Attendance %">
+            <input type="text" name="grades" placeholder="Previous Grade">
+
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if result %}
+        <div class="result">
+            {{ result }}
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+<!-- BOTÓN BACK -->
+<a href="/dashboard" class="back-btn">⬅ Back to Dashboard</a>
+
+
+</body>
+</html>
