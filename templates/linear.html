@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>linear</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #7b2ff7, #f107a3);
+            color: white;
+        }
+
+        /*  NAVBAR */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 30px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        /*  CONTENIDO */
+        .container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: white;
+            color: black;
+            width: 350px;
+            margin: auto;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 8px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            background: #7b2ff7;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #5a1fd1;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .high {
+            background: #ff4d4d;
+            color: white;
+        }
+
+        .low {
+            background: #4CAF50;
+            color: white;
+        }
+
+        img {
+            margin-top: 20px;
+            width: 300px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+
+<div class="navbar">
+    <div><b>ML System</b></div>
+    <div>
+        <a href="/dashboard">Home</a>
+        <a href="/usecase1">Use Cases</a>
+        <a href="/linear">linear</a>
+    </div>
+</div>
+
+<!--  CONTENIDO -->
+<div class="container">
+
+    <h1>Linear Regression</h1>
+
+    <p>
+        Linear Regression is a supervised learning algorithm used to predict values
+        based on input variables.
+    </p>
+
+    <div class="card">
+
+        <h3>Prediction Form</h3>
+
+        <form action="/predict" method="post">
+            <input type="text" name="gpa" placeholder="GPA">
+            <input type="text" name="courses" placeholder="Courses">
+            <input type="text" name="hours" placeholder="Study Hours">
+            <input type="text" name="failed" placeholder="Failed Subjects">
+
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if prediction %}
+            <div class="result 
+                {% if 'HIGH' in prediction %}high{% else %}low{% endif %}">
+                {{ prediction }}
+            </div>
+        {% endif %}
+
+    </div>
+
+    <h3>Regression Graph</h3>
+    <img src="{{ url_for('static', filename='regression.png') }}">
+
+</div>
+
+</body>
+</html>
