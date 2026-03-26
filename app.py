@@ -10,125 +10,81 @@ import csv
 app = Flask(__name__)
 app.secret_key = "secure_key_123"
 
-# ------------------- USERS DATABASE ---------------- #
+# ------------------- BASE DE DATOS DE USUARIOS ---------------- #
 users = {"admin": "1234"}
 
-# ------------------- RUTA DE ARCHIVO UNIFICADA ------------------- #
-
+# ------------------- RUTAS DE ARCHIVOS ------------------- #
 BASE_PATH = os.path.abspath(os.path.dirname(__file__))
 CSV_PATH = os.path.join(BASE_PATH, 'salaries.csv')
 
-# ------------------- LOGIN ROUTE ------------------- #
+# ------------------- LOGIN ------------------- #
 @app.route("/", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        username = request.form["Usuario"]
-        password = request.form["Clave"]
-
+        username = request.form.get("Usuario")
+        password = request.form.get("Clave")
         if username in users and users[username] == password:
             session["user"] = username
             return redirect(url_for("dashboard"))
-        else:
-            return render_template("login.html", error="Invalid credentials")
-
+        return render_template("login.html", error="Credenciales inválidas")
     return render_template("login.html")
 
-# ------------------- DASHBOARD ------------------- #
+# ------------------- DASHBOARD (GRÁFICO) ------------------- #
 @app.route("/dashboard")
 def dashboard():
     if "user" not in session:
         return redirect(url_for("login"))
-    
     plot_url = None
     try:
-        data = pd.read_csv(CSV_PATH)
-        plt.figure(figsize=(10, 6))
-        sns.set_style("whitegrid")
-        
-        # Linear Regression Plot
-        sns.regplot(x='YearsExperience', y='Salary', data=data, 
-                    scatter_kws={"color": "#6a1b9a", "alpha":0.6}, 
-                    line_kws={"color": "#ff5252", "lw": 3})
-        
-        plt.title('Analysis: Salary vs. Work Experience', fontsize=14)
-        plt.xlabel('Years of Experience', fontsize=12)
-        plt.ylabel('Salary ($)', fontsize=12)
-        plt.tight_layout()
-
-        # Guardar en buffer de memoria
-        img = io.BytesIO()
-        plt.savefig(img, format='png', bbox_inches='tight')
-        img.seek(0)
-        
-        # Codificar a Base64
-        plot_url = base64.b64encode(img.getvalue()).decode('utf8')
-        plt.close() 
-        
+        if os.path.exists(CSV_PATH):
+            data = pd.read_csv(CSV_PATH)
+            if not data.empty:
+                plt.figure(figsize=(10, 6))
+                sns.set_style("whitegrid")
+                sns.regplot(x='YearsExperience', y='Salary', data=data, 
+                            scatter_kws={"color": "#6a1b9a"}, line_kws={"color": "#ff5252"})
+                img = io.BytesIO()
+                plt.savefig(img, format='png', bbox_inches='tight')
+                img.seek(0)
+                plot_url = base64.b64encode(img.getvalue()).decode('utf8')
+                plt.close() 
     except Exception as e:
-        print(f"Error generando la gráfica: {e}")
-
+        print(f"Error: {e}")
     return render_template("dashboard.html", graph=plot_url)
 
-# ------------------- NAVIGATION ROUTES ------------------- #
+# ------------------- RUTAS DE NAVEGACIÓN ------------------- #
 @app.route("/usecase1")
-def usecase1():
-    return render_template("usecase1.html")
+def usecase1(): return render_template("usecase1.html")
 
 @app.route("/usecase2")
-def usecase2():
-    return render_template("usecase2.html")
+def usecase2(): return render_template("usecase2.html")
 
 @app.route("/usecase3")
-def usecase3():
-    return render_template("usecase3.html")
+def usecase3(): return render_template("usecase3.html")
 
-@app.route("/linear")
-def linear_page():
-    return render_template("linear_application.html")
+@app.route("/usecase4") # <-- ESTA RUTA CARGA TU HTML DEL CHAT
+def usecase4():
+    return render_template("chatbot.html")
 
-# ---------------- PREDICTION MODELS (DYNAMIC) ----------------- #
-@app.route("/predict_salary", methods=["POST"])
-def predict_salary():
-    experience = float(request.form["experience"])
-    education = int(request.form["education"])
-    hours = float(request.form["hours"])
-    
-    # Calcular predicción
-    salary = (experience * 200) + (education * 500) + (hours * 20)
-    with open(CSV_PATH, mode='a', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow([experience, round(salary, 2)])
-
-    result = f"Estimated Salary: ${salary:,.2f}"
-    return render_template("linear_application.html", result=result)
-
-# ------------------- USE CASE 1 ------------------- #
-@app.route("/predict_house", methods=["POST"])
-def predict_house():
-    size = float(request.form["size"])
-    rooms = int(request.form["rooms"])
-    age = int(request.form["age"])
-
-    price = (size * 3000) + (rooms * 5000) - (age * 1000)
-    result = f"Estimated Price: ${price:,.2f}"
-    return render_template("usecase1.html", result=result)
-
-# ------------------- CHATBOT API ------------------- #
+# ------------------- CHATBOT API (LÓGICA) ------------------- #
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()
-    msg = data["message"].lower()
-
-    if "hello" in msg or "hi" in msg:
-        reply = "Hello! I am your AI assistant. How can I help you today?"
-    elif "price" in msg:
-        reply = "You can calculate property values in Use Case 1."
+    msg = data.get("message", "").lower()
+    if "hola" in msg or "hi" in msg:
+        reply = "¡Hola! Soy tu asistente de ML. ¿En qué puedo ayudarte?"
+    elif "precio" in msg:
+        reply = "Puedes calcular valores de propiedades en el Caso de Uso 1."
     else:
-        reply = "I am your ML assistant 🤖."
-
+        reply = "Soy tu asistente inteligente 🤖."
     return jsonify({"reply": reply})
 
-# ------------------- LOGOUT ------------------- #
+# ------------------- MODELOS Y LOGOUT ------------------- #
+@app.route("/predict_salary", methods=["POST"])
+def predict_salary():
+    # ... (Tu lógica de predicción de salario aquí)
+    return render_template("linear_application.html")
+
 @app.route("/logout")
 def logout():
     session.pop("user", None)
