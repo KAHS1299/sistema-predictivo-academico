@@ -64,6 +64,8 @@ def linear_basic():
 def linear_application():
     return render_template("linear_application.html")
 
+#---------------DATASET--------------------
+
 @app.route("/predict_salary", methods=["POST"])
 def predict_salary():
     experience = float(request.form["experience"])
@@ -75,7 +77,6 @@ def predict_salary():
     result = f"Estimated Salary: ${salary}"
 
     return render_template("linear_application.html", result=result)
-
 
 # ------------------- USE CASE 1 -------------------
 @app.route("/predict_house", methods=["POST"])
