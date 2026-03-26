@@ -129,11 +129,10 @@ def logout():
     session.pop("user", None)
     return redirect(url_for("login"))
 
-if __name__ == "__main__":
-    app.run(debug=True)
-
-# --- Nueva ruta para la regresión lineal ---
 @app.route("/linear")
 def linear_page():
-    # Asegúrate de que este nombre de archivo coincida con el que tienes en 'templates'
-    return render_template("linear_application.html")    
+    return render_template("linear_application.html")
+
+# ESTA PARTE SIEMPRE DEBE IR AL FINAL DE TODO
+if __name__ == "__main__":
+    app.run(debug=True)
