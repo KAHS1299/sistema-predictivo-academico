@@ -83,6 +83,8 @@ def usecase3():
 
 # ------------------- PREDICTION MODELS -------------------
 
+#---------------DATASET--------------------
+
 @app.route("/predict_salary", methods=["POST"])
 def predict_salary():
     experience = float(request.form["experience"])
@@ -94,6 +96,8 @@ def predict_salary():
 
     return render_template("linear_application.html", result=result)
 
+
+# ------------------- USE CASE 1 -------------------
 @app.route("/predict_house", methods=["POST"])
 def predict_house():
     size = float(request.form["size"])
