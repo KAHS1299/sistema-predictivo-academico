@@ -4,19 +4,19 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import io
 import base64
+import csv
 
 app = Flask(__name__)
 # Security key for session management
 app.secret_key = "secure_key_123"
 
-# ------------------- USERS DATABASE -------------------
+# ------------------- USERS DATABASE ---------------- #
 users = {"admin": "1234"}
 
-# ------------------- LOGIN ROUTE -------------------
+# ------------------- LOGIN ROUTE ------------------- #
 @app.route("/", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        # Corregido: Ahora coincide con tu HTML ("Usuario" y "Clave")
         username = request.form["Usuario"]
         password = request.form["Clave"]
 
@@ -28,7 +28,7 @@ def login():
 
     return render_template("login.html")
 
-# ------------------- DASHBOARD (WITH ANALYTICS) -------------------
+# ------------------- DASHBOARD (WITH DYNAMIC GRAPH) ------------------- #
 @app.route("/dashboard")
 def dashboard():
     if "user" not in session:
@@ -65,7 +65,6 @@ def dashboard():
     except Exception as e:
         print(f"Error generating graph: {e}")
 
-    # Enviamos 'graph' al HTML
     return render_template("dashboard.html", graph=plot_url)
 
 # ------------------- NAVIGATION ROUTES -------------------
@@ -81,23 +80,26 @@ def usecase2():
 def usecase3():
     return render_template("usecase3.html")
 
-# ------------------- PREDICTION MODELS -------------------
-
-#---------------DATASET--------------------
-
+# ---------------- PREDICTION MODELS (DYNAMIC) ----------------- #
 @app.route("/predict_salary", methods=["POST"])
 def predict_salary():
+    # Obtener datos del formulario
     experience = float(request.form["experience"])
     education = int(request.form["education"])
     hours = float(request.form["hours"])
-
+    
+    # Calcular predicción
     salary = (experience * 200) + (education * 500) + (hours * 20)
-    result = f"Estimated Salary: ${salary:,.2f}"
+    
+    # GUARDAR EN CSV: Esto hace que la gráfica cambie en el dashboard
+    with open('salaries.csv', mode='a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([experience, round(salary, 2)])
 
+    result = f"Estimated Salary: ${salary:,.2f}"
     return render_template("linear_application.html", result=result)
 
-
-# ------------------- USE CASE 1 -------------------
+# ------------------- USE CASE 1 ------------------- #
 @app.route("/predict_house", methods=["POST"])
 def predict_house():
     size = float(request.form["size"])
@@ -108,7 +110,7 @@ def predict_house():
     result = f"Estimated Price: ${price:,.2f}"
     return render_template("usecase1.html", result=result)
 
-# ------------------- CHATBOT API -------------------
+# ------------------- CHATBOT API ------------------- #
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()
@@ -123,16 +125,16 @@ def chat():
 
     return jsonify({"reply": reply})
 
-# ------------------- LOGOUT -------------------
+# ------------------- LOGOUT ------------------- #
 @app.route("/logout")
 def logout():
     session.pop("user", None)
     return redirect(url_for("login"))
 
+# Ruta para mostrar la página de regresión
 @app.route("/linear")
 def linear_page():
     return render_template("linear_application.html")
 
-# ESTA PARTE SIEMPRE DEBE IR AL FINAL DE TODO
 if __name__ == "__main__":
     app.run(debug=True)
