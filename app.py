@@ -1,68 +1,87 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
-import pickle
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import io
+import base64
 
 app = Flask(__name__)
-app.secret_key = "secure key"
+# Security key for session management
+app.secret_key = "secure_key_123"
 
-# ------------------- USERS -------------------
+# ------------------- USERS DATABASE -------------------
 users = {"admin": "1234"}
 
-
-# ------------------- LOGIN -------------------
+# ------------------- LOGIN ROUTE -------------------
 @app.route("/", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
+        # Corregido: Ahora coincide con tu HTML ("Usuario" y "Clave")
         username = request.form["Usuario"]
         password = request.form["Clave"]
 
         if username in users and users[username] == password:
             session["user"] = username
             return redirect(url_for("dashboard"))
+        else:
+            return render_template("login.html", error="Invalid credentials")
 
     return render_template("login.html")
 
-
-# ------------------- DASHBOARD -------------------
+# ------------------- DASHBOARD (WITH ANALYTICS) -------------------
 @app.route("/dashboard")
 def dashboard():
     if "user" not in session:
         return redirect(url_for("login"))
-    return render_template("dashboard.html")
+    
+    plot_url = None
+    try:
+        # 1. Load the dataset (Ensure 'salaries.csv' is in your root folder)
+        data = pd.read_csv('salaries.csv')
 
+        # 2. Configure visualization style
+        plt.figure(figsize=(10, 6))
+        sns.set_style("whitegrid")
+        
+        # Linear Regression Plot (Purple dots, Red line)
+        sns.regplot(x='YearsExperience', y='Salary', data=data, 
+                    scatter_kws={"color": "#6a1b9a", "alpha":0.6}, 
+                    line_kws={"color": "#ff5252", "lw": 3})
+        
+        plt.title('Analysis: Salary vs. Work Experience', fontsize=14)
+        plt.xlabel('Years of Experience', fontsize=12)
+        plt.ylabel('Salary ($)', fontsize=12)
+        plt.tight_layout()
 
-# ------------------- USE CASES -------------------
+        # 3. Save plot to a memory buffer
+        img = io.BytesIO()
+        plt.savefig(img, format='png', bbox_inches='tight')
+        img.seek(0)
+        
+        # 4. Encode to Base64 string for the HTML template
+        plot_url = base64.b64encode(img.getvalue()).decode('utf8')
+        plt.close() 
+        
+    except Exception as e:
+        print(f"Error generating graph: {e}")
+
+    # Enviamos 'graph' al HTML
+    return render_template("dashboard.html", graph=plot_url)
+
+# ------------------- NAVIGATION ROUTES -------------------
 @app.route("/usecase1")
 def usecase1():
     return render_template("usecase1.html")
-
 
 @app.route("/usecase2")
 def usecase2():
     return render_template("usecase2.html")
 
-
 @app.route("/usecase3")
 def usecase3():
     return render_template("usecase3.html")
 
-
-@app.route("/usecase4")
-def usecase4():
-    return render_template("usecase4.html")
-
-
-# ------------------- LINEAR REGRESSION -------------------
-@app.route("/linear")
-def linear():
-    return render_template("linear.html")
-
-@app.route("/linear/basic")
-def linear_basic():
-    return render_template("linear_basic.html")
-
-@app.route("/linear/application")
-def linear_application():
-    return render_template("linear_application.html")
+# ------------------- PREDICTION MODELS -------------------
 
 @app.route("/predict_salary", methods=["POST"])
 def predict_salary():
@@ -71,13 +90,10 @@ def predict_salary():
     hours = float(request.form["hours"])
 
     salary = (experience * 200) + (education * 500) + (hours * 20)
-
-    result = f"Estimated Salary: ${salary}"
+    result = f"Estimated Salary: ${salary:,.2f}"
 
     return render_template("linear_application.html", result=result)
 
-
-# ------------------- USE CASE 1 -------------------
 @app.route("/predict_house", methods=["POST"])
 def predict_house():
     size = float(request.form["size"])
@@ -85,60 +101,23 @@ def predict_house():
     age = int(request.form["age"])
 
     price = (size * 3000) + (rooms * 5000) - (age * 1000)
-
-    result = f"Estimated Price: ${price}"
+    result = f"Estimated Price: ${price:,.2f}"
     return render_template("usecase1.html", result=result)
 
-
-# ------------------- USE CASE 2 -------------------
-@app.route("/predict_health", methods=["POST"])
-def predict_health():
-    age = int(request.form["age"])
-    heart = int(request.form["heart"])
-    pressure = int(request.form["pressure"])
-
-    if heart > 100 or pressure > 140:
-        result = "⚠️ High risk of disease"
-    else:
-        result = "✅ Healthy"
-
-    return render_template("usecase2.html", result=result)
-
-
-# ------------------- USE CASE 3 -------------------
-@app.route("/predict_student", methods=["POST"])
-def predict_student():
-    hours = float(request.form["hours"])
-    attendance = float(request.form["attendance"])
-    grades = float(request.form["grades"])
-
-    if hours > 2 and attendance > 70 and grades > 3:
-        result = "🎉 Pass"
-    else:
-        result = "❌ Fail"
-
-    return render_template("usecase3.html", result=result)
-
-
-# ------------------- CHATBOT -------------------
+# ------------------- CHATBOT API -------------------
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()
     msg = data["message"].lower()
 
-    if "hello" in msg:
-        reply = "Hi! How can I help you?"
+    if "hello" in msg or "hi" in msg:
+        reply = "Hello! I am your AI assistant. How can I help you today?"
     elif "price" in msg:
-        reply = "You can use the house prediction model."
-    elif "health" in msg:
-        reply = "Try the medical diagnosis model."
-    elif "student" in msg:
-        reply = "Use the student performance model."
+        reply = "You can calculate property values in Use Case 1."
     else:
-        reply = "I am your ML assistant 🤖"
+        reply = "I am your ML assistant 🤖."
 
     return jsonify({"reply": reply})
-
 
 # ------------------- LOGOUT -------------------
 @app.route("/logout")
@@ -146,7 +125,5 @@ def logout():
     session.pop("user", None)
     return redirect(url_for("login"))
 
-
-# ------------------- RUN -------------------
 if __name__ == "__main__":
     app.run(debug=True)
