@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -7,11 +8,15 @@ import base64
 import csv
 
 app = Flask(__name__)
-# Security key for session management
 app.secret_key = "secure_key_123"
 
 # ------------------- USERS DATABASE ---------------- #
 users = {"admin": "1234"}
+
+# ------------------- RUTA DE ARCHIVO UNIFICADA ------------------- #
+
+BASE_PATH = os.path.abspath(os.path.dirname(__file__))
+CSV_PATH = os.path.join(BASE_PATH, 'salaries.csv')
 
 # ------------------- LOGIN ROUTE ------------------- #
 @app.route("/", methods=["GET", "POST"])
@@ -28,7 +33,7 @@ def login():
 
     return render_template("login.html")
 
-# ------------------- DASHBOARD (WITH DYNAMIC GRAPH) ------------------- #
+# ------------------- DASHBOARD ------------------- #
 @app.route("/dashboard")
 def dashboard():
     if "user" not in session:
@@ -36,14 +41,11 @@ def dashboard():
     
     plot_url = None
     try:
-        # 1. Load the dataset (Ensure 'salaries.csv' is in your root folder)
-        data = pd.read_csv('salaries.csv')
-
-        # 2. Configure visualization style
+        data = pd.read_csv(CSV_PATH)
         plt.figure(figsize=(10, 6))
         sns.set_style("whitegrid")
         
-        # Linear Regression Plot (Purple dots, Red line)
+        # Linear Regression Plot
         sns.regplot(x='YearsExperience', y='Salary', data=data, 
                     scatter_kws={"color": "#6a1b9a", "alpha":0.6}, 
                     line_kws={"color": "#ff5252", "lw": 3})
@@ -53,21 +55,21 @@ def dashboard():
         plt.ylabel('Salary ($)', fontsize=12)
         plt.tight_layout()
 
-        # 3. Save plot to a memory buffer
+        # Guardar en buffer de memoria
         img = io.BytesIO()
         plt.savefig(img, format='png', bbox_inches='tight')
         img.seek(0)
         
-        # 4. Encode to Base64 string for the HTML template
+        # Codificar a Base64
         plot_url = base64.b64encode(img.getvalue()).decode('utf8')
         plt.close() 
         
     except Exception as e:
-        print(f"Error generating graph: {e}")
+        print(f"Error generando la gráfica: {e}")
 
     return render_template("dashboard.html", graph=plot_url)
 
-# ------------------- NAVIGATION ROUTES -------------------
+# ------------------- NAVIGATION ROUTES ------------------- #
 @app.route("/usecase1")
 def usecase1():
     return render_template("usecase1.html")
@@ -80,19 +82,20 @@ def usecase2():
 def usecase3():
     return render_template("usecase3.html")
 
+@app.route("/linear")
+def linear_page():
+    return render_template("linear_application.html")
+
 # ---------------- PREDICTION MODELS (DYNAMIC) ----------------- #
 @app.route("/predict_salary", methods=["POST"])
 def predict_salary():
-    # Obtener datos del formulario
     experience = float(request.form["experience"])
     education = int(request.form["education"])
     hours = float(request.form["hours"])
     
     # Calcular predicción
     salary = (experience * 200) + (education * 500) + (hours * 20)
-    
-    # GUARDAR EN CSV: Esto hace que la gráfica cambie en el dashboard
-    with open('salaries.csv', mode='a', newline='') as file:
+    with open(CSV_PATH, mode='a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow([experience, round(salary, 2)])
 
@@ -130,11 +133,6 @@ def chat():
 def logout():
     session.pop("user", None)
     return redirect(url_for("login"))
-
-# Ruta para mostrar la página de regresión
-@app.route("/linear")
-def linear_page():
-    return render_template("linear_application.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

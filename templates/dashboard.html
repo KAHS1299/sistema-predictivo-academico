@@ -100,6 +100,7 @@
 
         h1 { margin-bottom: 10px; }
         hr { border: 0; height: 1px; background: #eee; margin: 40px 0; }
+        
     </style>
 </head>
 <body>
@@ -130,6 +131,17 @@
 
 Within this broad ecosystem, linear regression stands as one of the fundamental pillars and the most common entry point to supervised learning, as it allows for modeling the mathematical relationship between a variable of interest and the factors that influence it. While machine learning in general can utilize complex structures such as neural networks, linear regression seeks the “best-fit line” to explain how a dependent variable (such as academic performance or the price of an asset) changes in response to variations in one or more independent variables.</p>
         
+        <div class="case-box" style="border-left: 6px solid #7b2ff7; text-align: center;">
+            <h2 style="color: #7b2ff7;">Live Data Analysis: Salary vs Experience</h2>
+            <p>This graph updates in real-time as new data is added through the Regression module.</p>
+            <div class="img-container" style="display: block;">
+                {% if graph %}
+                    <img src="data:image/png;base64,{{ graph }}" style="max-width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                {% else %}
+                    <p style="color: #e74c3c;">Graph not available. Please ensure the data source is connected.</p>
+                {% endif %}
+            </div>
+        </div>
         <hr>
 
         <div class="case-box">
