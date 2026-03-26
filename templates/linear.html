@@ -8,6 +8,7 @@
             margin: 0;
             font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #7b2ff7, #f107a3);
+            min-height: 100vh;
             color: white;
         }
 
@@ -65,6 +66,21 @@
         button:hover {
             background: #5a1fd1;
         }
+        .btn {
+            display: inline-block;
+            padding: 15px 25px;
+            margin: 20px;
+            background: white;
+            color: #ff416c;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+        transform: scale(1.1);
+        }
 
         .result {
             margin-top: 15px;
@@ -106,6 +122,7 @@
 </div>
 
 <!--  CONTENIDO -->
+  
 <div class="container">
 
     <h1>Linear Regression</h1>
@@ -115,31 +132,9 @@
         based on input variables.
     </p>
 
-    <div class="card">
-
-        <h3>Prediction Form</h3>
-
-        <form action="/predict" method="post">
-            <input type="text" name="gpa" placeholder="GPA">
-            <input type="text" name="courses" placeholder="Courses">
-            <input type="text" name="hours" placeholder="Study Hours">
-            <input type="text" name="failed" placeholder="Failed Subjects">
-
-            <button type="submit">Predict</button>
-        </form>
-
-        {% if prediction %}
-            <div class="result 
-                {% if 'HIGH' in prediction %}high{% else %}low{% endif %}">
-                {{ prediction }}
-            </div>
-        {% endif %}
-
-    </div>
-
-    <h3>Regression Graph</h3>
-    <img src="{{ url_for('static', filename='regression.png') }}">
-
+<div class="buttons-container">
+    <a href="/linear/basic" class="btn">📘 Basic Concepts</a>
+    <a href="/linear/application" class="btn">📊 Application</a>
 </div>
 
 </body>

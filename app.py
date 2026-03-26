@@ -56,30 +56,25 @@ def usecase4():
 def linear():
     return render_template("linear.html")
 
+@app.route("/linear/basic")
+def linear_basic():
+    return render_template("linear_basic.html")
 
-@app.route("/predict", methods=["POST"])
-def predict():
-    try:
-        gpa = float(request.form["gpa"])
-        courses = int(request.form["courses"])
-        hours = float(request.form["hours"])
-        failed = int(request.form["failed"])
+@app.route("/linear/application")
+def linear_application():
+    return render_template("linear_application.html")
 
-        with open("model.pkl", "rb") as f:
-            model = pickle.load(f)
+@app.route("/predict_salary", methods=["POST"])
+def predict_salary():
+    experience = float(request.form["experience"])
+    education = int(request.form["education"])
+    hours = float(request.form["hours"])
 
-        X_new = [[gpa, courses, hours, failed]]
+    salary = (experience * 200) + (education * 500) + (hours * 20)
 
-        risk_class = model.predict(X_new)[0]
-        risk_prob = model.predict_proba(X_new)[0][1]
+    result = f"Estimated Salary: ${salary}"
 
-        result = "HIGH RISK" if risk_class == 1 else "LOW RISK"
-        prediction = f"Prediction: {result} (Probability: {risk_prob:.2f})"
-
-        return render_template("linear.html", prediction=prediction)
-
-    except Exception as e:
-        return render_template("linear.html", prediction=f"Error: {str(e)}")
+    return render_template("linear_application.html", result=result)
 
 
 # ------------------- USE CASE 1 -------------------
