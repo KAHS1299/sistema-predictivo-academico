@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="main">
+
+  
+    <div class="card">
+        <h2>House Price Prediction</h2>
+
+        <p><strong>Problem:</strong> Predict house prices using ML.</p>
+
+        <p><strong>Type:</strong> Supervised Learning (Regression)</p>
+
+        <p><strong>Inputs:</strong></p>
+        <ul>
+            <li>RM - Rooms</li>
+            <li>LSTAT - Low status %</li>
+            <li>CRIM - Crime rate</li>
+        </ul>
+
+        <p><strong>Output:</strong> MEDV (House Price)</p>
+
+        <p><strong>Use:</strong> Real estate & urban planning</p>
+    </div>
+
+    <!-- FORM -->
+    <div class="card">
+        <h2>Prediction</h2>
+
+        <form method="post" action="/predict_house_ml">
+
+            <input type="number" step="any" name="rm" placeholder="Rooms (RM)" required>
+            <input type="number" step="any" name="lstat" placeholder="LSTAT (%)" required>
+            <input type="number" step="any" name="crim" placeholder="Crime Rate" required>
+
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if result %}
+        <div class="result">
+            {{ result }}
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+<div class="graph-container">
+
+    <div class="graph-card">
+        <h2>Regression Graph</h2>
+
+        {% if plot %}
+            <img src="data:image/png;base64,{{ plot }}">
+        {% else %}
+            <p>No graph available</p>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}

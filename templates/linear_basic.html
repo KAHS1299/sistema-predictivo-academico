@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="main">
+
+    <!-- EXPLICACION -->
+    <div class="card">
+        <h2>Linear Regression Explanation</h2>
+
+        <p><strong>What is Linear Regression?</strong></p>
+        <p>
+            Linear regression is a supervised Machine Learning algorithm used to predict
+            a continuous value based on one or more input variables.
+        </p>
+
+        <p><strong>How does it work?</strong></p>
+        <p>
+            It finds the best straight line that fits the data. This line represents
+            the relationship between the independent variables (inputs) and the dependent variable (output).
+        </p>
+
+        <p><strong>Mathematical Model:</strong></p>
+        <p>
+            y = β₀ + β₁x₁ + β₂x₂ + ... + βₙxₙ
+        </p>
+
+        <ul>
+            <li><strong>y:</strong> predicted value</li>
+            <li><strong>x:</strong> input variables</li>
+            <li><strong>β:</strong> coefficients learned by the model</li>
+        </ul>
+
+        <p><strong>Goal:</strong></p>
+        <p>
+            Minimize the error between predicted values and real values.
+        </p>
+    </div>
+
+    <!-- APLICACION -->
+    <div class="card">
+        <h2>Application in This Project</h2>
+
+        <p><strong>Problem:</strong></p>
+        <p>
+            Predict house prices using data from the Boston Housing dataset.
+        </p>
+
+        <p><strong>Input Variables:</strong></p>
+        <ul>
+            <li>RM - Number of rooms</li>
+            <li>LSTAT - Lower status population (%)</li>
+            <li>CRIM - Crime rate</li>
+        </ul>
+
+        <p><strong>Output:</strong></p>
+        <p>
+            MEDV - Median house value
+        </p>
+
+        <p><strong>How the model works here:</strong></p>
+        <p>
+            The model analyzes how each variable affects the house price and
+            combines them to generate a prediction.
+        </p>
+
+        <p><strong>Example:</strong></p>
+        <p>
+            Houses with more rooms (RM) tend to have higher prices, while
+            higher crime rates (CRIM) reduce property value.
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

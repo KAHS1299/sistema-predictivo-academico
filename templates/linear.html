@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Problem -->
+<div class="section">
+    <button onclick="toggle('problem')">Problem Description</button>
+    <div id="problem" class="content">
+        Predict the median value of homes (MEDV) based on socioeconomic and environmental factors.
+    </div>
+</div>
+
+<!-- Dataset -->
+<div class="section">
+    <button onclick="toggle('dataset')">Dataset Explanation</button>
+    <div id="dataset" class="content">
+        The dataset contains information about housing in Boston, including crime rate, number of rooms, pollution levels, and other factors that influence house prices.
+    </div>
+</div>
+
+<!-- Variables -->
+<div class="section">
+    <button onclick="toggle('variables')">Variables</button>
+    <div id="variables" class="content">
+        <strong>Independent:</strong> CRIM, ZN, INDUS, CHAS, NOX, RM, AGE, DIS, RAD, TAX, PTRATIO, B, LSTAT <br>
+        <strong>Dependent:</strong> MEDV (Median value of homes)
+    </div>
+</div>
+
+<!-- Data Preparation -->
+<div class="section">
+    <button onclick="toggle('data')">Data Preparation</button>
+    <div id="data" class="content">
+        The dataset was cleaned by handling missing values, selecting relevant features, and normalizing variables to improve model performance.
+    </div>
+</div>
+
+<!-- GRAFICA -->
+<div class="section">
+    <button onclick="toggle('graph')">Regression Graph</button>
+    <div id="graph" class="content graph">
+
+        {% if plot %}
+            <img src="data:image/png;base64,{{ plot }}">
+        {% else %}
+            <p>No graph available</p>
+        {% endif %}
+
+    </div>
+</div>
+
+<!-- Interpretation -->
+<div class="section">
+    <button onclick="toggle('interpretation')">Interpretation</button>
+    <div id="interpretation" class="content">
+        Housing prices tend to increase with more rooms (RM) and decrease with higher crime rates (CRIM) and lower socioeconomic status (LSTAT).
+    </div>
+</div>
+
+<!-- Prediction -->
+<div class="section">
+    <button onclick="toggle('prediction')">Prediction</button>
+    <div id="prediction" class="content">
+
+        <form method="post" class="form-inline">
+
+            <input type="number" step="any" name="rm" placeholder="Average number of rooms (RM)" required>
+            <input type="number" step="any" name="lstat" placeholder="Lower status population % (LSTAT)" required>
+            <input type="number" step="any" name="crim" placeholder="Crime rate (CRIM)" required>
+
+            <button type="submit" class="btn-predict">Predict</button>
+        </form>
+
+        {% if result is not none %}
+        <div class="result">
+            Predicted House Price (MEDV): <strong>{{ result }}</strong>
+        </div>
+        {% endif %}
+
+    </div>
+</div>                      
+{% endblock %}
