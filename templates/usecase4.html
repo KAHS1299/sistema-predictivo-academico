@@ -1,95 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Chatbot ML</title>
+{% extends "base.html" %}
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial;
-            background: linear-gradient(135deg, #11998e, #38ef7d);
-            color: white;
-        }
+{% block content %}
 
-        .container {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 40px;
-            flex-wrap: wrap;
-        }
-
-        .card {
-            background: white;
-            color: black;
-            width: 550px;
-            padding: 25px;
-            border-radius: 15px;
-        }
-
-        .chat-box {
-            height: 300px;
-            overflow-y: auto;
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-
-        .msg {
-            padding: 8px;
-            margin: 5px;
-            border-radius: 10px;
-            max-width: 70%;
-        }
-
-        .user {
-            background: #dcf8c6;
-            text-align: right;
-            margin-left: auto;
-        }
-
-        .bot {
-            background: #eee;
-        }
-
-        input {
-            width: 75%;
-            padding: 10px;
-        }
-
-        button {
-            padding: 10px;
-            background: #11998e;
-            color: white;
-            border: none;
-        }
-
-        .back-btn {
-            display: block;
-            margin: 40px auto;
-            width: 220px;
-            text-align: center;
-            padding: 12px;
-            border-radius: 25px;
-            background: white;
-            color: #7b2ff7;
-            font-weight: bold;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-        .back {
-            display: block;
-            text-align: center;
-            margin: 30px;
-            color: white;
-            font-weight: bold;
-        }
-    </style>
-</head>
-
-<body>
-
-<div class="container">
+<div class="main">
 
     <!--  DESCRIPCIÓN -->
     <div class="card">
@@ -132,9 +45,6 @@
 
 </div>
 
-<!-- BOTÓN BACK -->
-<a href="/dashboard" class="back-btn">⬅ Back to Dashboard</a>
-
 
 <script>
 function sendMessage() {
@@ -167,5 +77,4 @@ function sendMessage() {
 }
 </script>
 
-</body>
-</html>
+{% endblock %}

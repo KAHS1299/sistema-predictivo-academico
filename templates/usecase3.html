@@ -1,84 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Use Case 3</title>
+{% extends "base.html" %}
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial;
-            background: linear-gradient(135deg, #36d1dc, #5b86e5);
-            color: white;
-        }
-
-        .main {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 50px;
-            flex-wrap: wrap;
-            animation: fadeIn 1s;
-        }
-
-        .card {
-            background: white;
-            color: black;
-            width: 550px;
-            padding: 25px;
-            border-radius: 15px;
-        }
-
-        input {
-            width: 90%;
-            padding: 10px;
-            margin: 8px;
-        }
-
-        button {
-            width: 95%;
-            padding: 12px;
-            background: #36d1dc;
-            color: white;
-            border: none;
-            border-radius: 10px;
-        }
-
-        .result {
-            margin-top: 10px;
-            background: #007bff;
-            color: white;
-            padding: 10px;
-            border-radius: 10px;
-        }
-        .back-btn {
-            display: block;
-            margin: 40px auto;
-            width: 220px;
-            text-align: center;
-            padding: 12px;
-            border-radius: 25px;
-            background: white;
-            color: #7b2ff7;
-            font-weight: bold;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-        .back {
-            display: block;
-            text-align: center;
-            margin: 30px;
-            color: white;
-            font-weight: bold;
-        }
-
-        @keyframes fadeIn {
-            from {opacity:0;}
-            to {opacity:1;}
-        }
-    </style>
-</head>
-
-<body>
+{% block content %} 
 
 <div class="main">
 
@@ -135,9 +57,4 @@
 
 </div>
 
-<!-- BOTÓN BACK -->
-<a href="/dashboard" class="back-btn">⬅ Back to Dashboard</a>
-
-
-</body>
-</html>
+{% endblock %}
