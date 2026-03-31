@@ -6,7 +6,6 @@ body {
     min-height: 100vh;
 }
 
-
 .navbar {
     position: fixed;
     top: 0;
@@ -86,7 +85,6 @@ body {
     background: #0ab8bb;
     color: black;
 }
-
 .submenu-container {
     position: relative;
 }
@@ -201,7 +199,6 @@ input {
 
     font-size: 20px;
 }
-
 
 button {
     width: 100%;
