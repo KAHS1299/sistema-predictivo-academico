@@ -1,16 +1,22 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+import matplotlib
+matplotlib.use('Agg')
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import io
 import base64
-import os 
-from sklearn.linear_model import LinearRegression
+import os
+
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+
+from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, roc_curve, auc
 
 ruta_base = os.path.dirname(os.path.abspath(__file__))
 ruta_csv = os.path.join(ruta_base, "boston.csv")
 df = pd.read_csv(ruta_csv)
 
-# Usamos una variable para graficar (RM vs MEDV)
 X = df[["RM"]]
 y = df["MEDV"]
 
@@ -21,18 +27,30 @@ model.fit(X, y)
 app = Flask(__name__)
 app.secret_key = "secure_key"
 
+#-------------DATASET LOGISTIC----------------
 
-# ==============================
-# USERS (LOGIN SIMPLE)
-# ==============================
+df_log = pd.read_csv("loan_risk_prediction_dataset.csv")
+
+num_cols = df_log.select_dtypes(include=['number']).columns
+df_log = df_log.dropna()
+
+df_log[num_cols] = df_log[num_cols].fillna(df_log[num_cols].mean())
+
+X = df_log[["Age","Income","LoanAmount","CreditScore","YearsExperience"]]
+y = df_log["LoanApproved"]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+log_model = LogisticRegression(max_iter=1000)
+log_model.fit(X_train, y_train)
+
+
+# -----------USERS (LOGIN SIMPLE)----------
 users = {
     "admin": "1234"
 }
 
-
-# ==============================
-# FUNCION LOGIN REQUIRED
-# ==============================
+#-------- FUNCION LOGIN REQUIRED------------
 def login_required():
     return "user" in session
 
@@ -53,9 +71,9 @@ def login():
     return render_template("login.html")
 
 
-# ==============================
-# DASHBOARD
-# ==============================
+
+#---------------- DASHBOARD----------------
+
 @app.route("/dashboard")
 def dashboard():
     if not login_required():
@@ -63,9 +81,9 @@ def dashboard():
     return render_template("dashboard.html")
 
 
-# ==============================
-# USE CASES
-# ==============================
+
+#-------------USE CASES------------------
+
 @app.route("/usecase1")
 def usecase1():
     if not login_required():
@@ -94,9 +112,9 @@ def usecase4():
     return render_template("usecase4.html")
 
 
-# ==============================
-# LINEAR REGRESSION
-# ==============================
+
+#---------------- LINEAR REGRESSION--------------
+
 @app.route("/linear_explanation")
 def linear_explanation():
     if not login_required():
@@ -111,21 +129,113 @@ def linear_application():
     return render_template("linear_application.html")
 
 
-# ==============================
-# LOGISTIC REGRESSION
-# ==============================
+
+#---------------LOGISTIC REGRESSION----------------
+
+@app.route("/logistic_application", methods=["GET","POST"])
+def logistic_application():
+
+    result = None
+    cm_plot = None
+    roc_plot = None
+    dynamic_plot = None
+
+    if request.method == "POST":
+        try:
+            age = float(request.form["age"])
+            income = float(request.form["income"])
+            loan = float(request.form["loan"])
+            credit = float(request.form["credit"])
+            exp = float(request.form["exp"])
+
+            input_data = pd.DataFrame([{
+                "Age": age,
+                "Income": income,
+                "LoanAmount": loan,
+                "CreditScore": credit,
+                "YearsExperience": exp
+            }])
+
+            pred = log_model.predict(input_data)
+            prob = log_model.predict_proba(input_data)[0][1]
+
+            result = f"Approved ✅ (Probability: {prob:.2f})" if pred[0] == 1 else f"Rejected ❌ (Probability: {prob:.2f})"
+
+        except:
+            result = "Error in input data"
+
+        # ===== GRAFICA DINAMICA =====
+        plt.figure()
+
+        # datos reales
+        plt.scatter(df_log["CreditScore"], df_log["LoanAmount"], c=y)
+
+        # punto del usuario
+        plt.scatter(credit, loan, marker='o', s=150)
+
+        plt.xlabel("Credit Score")
+        plt.ylabel("Loan Amount")
+        plt.title("Loan Approval Distribution")
+
+        img = io.BytesIO()
+        plt.savefig(img, format='png')
+        img.seek(0)
+
+        dynamic_plot = base64.b64encode(img.getvalue()).decode()
+        plt.close()
+
+    # METRICAS
+    y_pred = log_model.predict(X_test)
+    y_prob = log_model.predict_proba(X_test)[:,1]
+
+    accuracy = accuracy_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred)
+
+    # MATRIZ
+    cm = confusion_matrix(y_test, y_pred)
+
+    plt.figure()
+    plt.imshow(cm)
+    plt.title("Confusion Matrix")
+
+    img = io.BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+    cm_plot = base64.b64encode(img.getvalue()).decode()
+    plt.close()
+
+    # ROC
+    fpr, tpr, _ = roc_curve(y_test, y_prob)
+    roc_auc = auc(fpr, tpr)
+
+    plt.figure()
+    plt.plot(fpr, tpr)
+    plt.plot([0,1],[0,1],'--')
+    plt.title(f"ROC Curve (AUC={roc_auc:.2f})")
+
+    img = io.BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+    roc_plot = base64.b64encode(img.getvalue()).decode()
+    plt.close()
+
+    return render_template("logistic_application.html",
+        result=result,
+        accuracy=round(accuracy,2),
+        precision=round(precision,2),
+        recall=round(recall,2),
+        f1=round(f1,2),
+        cm_plot=cm_plot,
+        roc_plot=roc_plot,
+        dynamic_plot=dynamic_plot,
+    )
 @app.route("/logistic_explanation")
 def logistic_explanation():
     if not login_required():
         return redirect(url_for("login"))
     return render_template("logistic_basic.html")
-
-
-@app.route("/logistic_application")
-def logistic_application():
-    if not login_required():
-        return redirect(url_for("login"))
-    return render_template("logistic_application.html")
 
 # ==============================
 # CLASSIFICATION MODEL
