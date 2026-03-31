@@ -124,6 +124,21 @@ def logistic_application():
         return redirect(url_for("login"))
     return render_template("logistic_application.html")
 
+# ==============================
+# CLASSIFICATION MODEL
+# ==============================
+@app.route("/classification_explanation")
+def classification_explanation():
+    if not login_required():
+        return redirect(url_for("login"))
+    return render_template("classification_basic.html")
+
+
+@app.route("/classification_application")
+def classification_application():
+    if not login_required():
+        return redirect(url_for("login"))
+    return render_template("classification_application.html")
 
 # ==============================
 # PREDICCION - REGRESION LINEAL
@@ -283,5 +298,14 @@ def logout():
 # ==============================
 # RUN APP
 # ==============================
+
+@app.route("/predict_classification", methods=["POST"])
+def predict_classification():
+    f1 = request.form["feat1"]
+    f2 = request.form["feat2"]
+    # Por ahora, una lógica simple para probar que el botón funciona:
+    res = "Clase A" if float(f1) > 50 else "Clase B"
+    return render_template("classification_application.html", result=res)
+
 if __name__ == "__main__":
     app.run(debug=True)

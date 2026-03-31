@@ -80,3 +80,49 @@
     </div>
 </div>                      
 {% endblock %}
+
+<!-- GRAFICA -->
+<div class="section">
+    <button onclick="toggle('graph')">Regression Graph</button>
+    <div id="graph" class="content graph">
+
+        {% if plot %}
+            <img src="data:image/png;base64,{{ plot }}">
+        {% else %}
+            <p>No graph available</p>
+        {% endif %}
+
+    </div>
+</div>
+
+<!-- Interpretation -->
+<div class="section">
+    <button onclick="toggle('interpretation')">Interpretation</button>
+    <div id="interpretation" class="content">
+        Housing prices tend to increase with more rooms (RM) and decrease with higher crime rates (CRIM) and lower socioeconomic status (LSTAT).
+    </div>
+</div>
+
+<!-- Prediction -->
+<div class="section">
+    <button onclick="toggle('prediction')">Prediction</button>
+    <div id="prediction" class="content">
+
+        <form method="post" class="form-inline">
+
+            <input type="number" step="any" name="rm" placeholder="Average number of rooms (RM)" required>
+            <input type="number" step="any" name="lstat" placeholder="Lower status population % (LSTAT)" required>
+            <input type="number" step="any" name="crim" placeholder="Crime rate (CRIM)" required>
+
+            <button type="submit" class="btn-predict">Predict</button>
+        </form>
+
+        {% if result is not none %}
+        <div class="result">
+            Predicted House Price (MEDV): <strong>{{ result }}</strong>
+        </div>
+        {% endif %}
+
+    </div>
+</div>                      
+{% endblock %}
