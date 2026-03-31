@@ -3,9 +3,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import io
 import base64
+import os 
 from sklearn.linear_model import LinearRegression
 
-df = pd.read_csv("boston.csv")
+ruta_base = os.path.dirname(os.path.abspath(__file__))
+ruta_csv = os.path.join(ruta_base, "boston.csv")
+df = pd.read_csv(ruta_csv)
 
 # Usamos una variable para graficar (RM vs MEDV)
 X = df[["RM"]]
