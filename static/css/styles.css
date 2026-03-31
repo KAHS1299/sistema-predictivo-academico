@@ -1,0 +1,289 @@
+/* ==============================
+   RESET & BASE
+============================== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #7b2ff7, #f107a3);
+    min-height: 100vh;
+}
+
+/* ==============================
+   NAVBAR
+============================== */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: #65008e;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+.nav-container {
+    width: 100%;
+    max-width: 1200px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 40px;
+}
+
+/* BOTONES NAV */
+.nav-btn {
+    color: white;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 20px;
+    text-decoration: none;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.nav-btn:hover {
+    background: #0ab8bb;
+    color: black;
+}
+
+/* ==============================
+   DROPDOWN
+============================== */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+
+    background: #1c1c1c;
+    border-radius: 12px;
+    padding: 10px;
+    min-width: 200px;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu a,
+.submenu-container span {
+    display: block;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.dropdown-menu a:hover,
+.submenu-container span:hover {
+    background: #0ab8bb;
+    color: black;
+}
+
+/* ==============================
+   SUBMENU (LATERAL)
+============================== */
+.submenu-container {
+    position: relative;
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%;
+
+    background: #1c1c1c;
+    border-radius: 10px;
+    padding: 10px;
+    min-width: 180px;
+}
+
+.submenu-container:hover .submenu {
+    display: block;
+}
+
+/* ==============================
+   CONTENIDO GENERAL
+============================== */
+.main {
+    margin-top: 120px;
+
+    width: 100%;
+    max-width: 1200px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    gap: 40px;
+    flex-wrap: wrap;
+
+    padding: 20px;
+}
+
+/* ==============================
+   TARJETAS
+============================== */
+.card {
+    background: #ffffff;
+    color: #1e293b;
+
+    padding: 30px;
+    border-radius: 20px;
+
+    width: 500px;
+    min-height: 550px;
+
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+}
+
+.card h1, .card h2 {
+    margin-bottom: 15px;
+    font-size: 25px;
+}
+
+.card p {
+    font-size: 20px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.card ul {
+    padding-left: 20px;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    margin-top: 20px;
+}
+.graph-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.graph-card {
+    width: 90%;
+    max-width: 1000px;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 20px;
+
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+.graph-card img {
+    width: 100%;
+    border-radius: 10px;
+}
+/* ==============================
+   INPUTS
+============================== */
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+
+    border-radius: 8px;
+    border: 1px solid #ccc;
+
+    font-size: 20px;
+}
+
+/* ==============================
+   BOTONES
+============================== */
+button {
+    width: 100%;
+    padding: 12px;
+
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    border: none;
+    border-radius: 10px;
+
+    color: white;
+    font-weight: bold;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+/* ==============================
+   RESULTADO
+============================== */
+.result {
+    margin-top: 15px;
+    padding: 12px;
+
+    background: #e0f2fe;
+    border-left: 5px solid #0284c7;
+    border-radius: 6px;
+}
+
+/* ==============================
+   BOTÓN BACK
+============================== */
+.back {
+    display: block;
+    text-align: center;
+    margin: 30px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+/* ==============================
+   DASHBOARD
+============================== */
+.dashboard-container {
+    margin-top: 120px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+}
+
+.dashboard-card {
+    background: white;
+    padding: 60px;
+    border-radius: 25px;
+
+    width: 100%;
+    max-width: 900px;
+
+    box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+
+    text-align: center;
+}
