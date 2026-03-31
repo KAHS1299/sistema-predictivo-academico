@@ -1,10 +1,55 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div style="max-width: 800px; margin: 50px auto; color: white; text-align: center;">
-    <h1>¿Qué es la Clasificación?</h1>
-    <p>A diferencia de la Regresión Lineal (que predice números), la Clasificación predice <b>etiquetas o categorías</b>.</p>
-    <p>Ejemplos: ¿Es spam o no?, ¿El tumor es maligno o benigno?, ¿El estudiante aprueba o reprueba?</p>
-</div>
+<div style="max-width: 900px; margin: 60px auto; background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); color: #333; line-height: 1.6;">
+    
+    <h1 style="color: #033d3d; text-align: center; font-size: 2.5em; margin-bottom: 20px;">
+        <i class="fas fa-project-diagram"></i> What is Classification?
+    </h1>
+    
+    <div style="display: flex; gap: 30px; align-items: center; margin-bottom: 30px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 300px;">
+            <p style="font-size: 1.1em;">
+                Unlike <b>Linear Regression</b> (which predicts continuous numerical values, like a house price), <b>Classification</b> aims to assign a <b>label or category</b> to the input data.
+            </p>
+            <p>It is the process of learning a function that maps an input vector of variables into one of several discrete classes.</p>
+        </div>
+        <div style="flex: 1; min-width: 300px; background: #e0f7f7; padding: 20px; border-radius: 15px; border-left: 5px solid #0ab8bb;">
+            <h4 style="margin-top: 0; color: #033d3d;">Key Examples:</h4>
+            <ul style="list-style: none; padding-left: 0;">
+                <li>📧 <b>Spam Detection:</b> Is it Junk or Safe?</li>
+                <li>🏥 <b>Medical Diagnosis:</b> Malignant or Benign?</li>
+                <li>🎓 <b>Academic Performance:</b> Will the student Pass or Fail?</li>
+            </ul>
+        </div>
+    </div>
 
+    <hr style="border: 0; height: 1px; background: #ddd; margin: 40px 0;">
+
+    <h2 style="color: #033d3d; text-align: center;">Our Model: AdaBoost</h2>
+    <p style="text-align: center; color: #666; font-style: italic;">Adaptive Boosting Algorithm</p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px;">
+        <div style="background: white; padding: 20px; border-radius: 15px; border: 1px solid #eee; text-align: center;">
+            <h3 style="color: #0ab8bb;">1. Weak Learners</h3>
+            <p>AdaBoost uses multiple "Decision Stumps" (mini-models) that are simple but work together.</p>
+        </div>
+        <div style="background: white; padding: 20px; border-radius: 15px; border: 1px solid #eee; text-align: center;">
+            <h3 style="color: #0ab8bb;">2. Sequential Learning</h3>
+            <p>Each new model focuses specifically on correcting the errors made by the previous model.</p>
+        </div>
+        <div style="background: white; padding: 20px; border-radius: 15px; border: 1px solid #eee; text-align: center;">
+            <h3 style="color: #0ab8bb;">3. Weighted Voting</h3>
+            <p>Finally, all mini-models vote, and the majority decision determines the final classification.</p>
+        </div>
+    </div>
+
+    
+
+    <div style="text-align: center; margin-top: 40px;">
+        <a href="/classification_application" style="background: linear-gradient(to right, #033d3d, #0ab8bb); color: white; padding: 18px 35px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 1.2em; box-shadow: 0 5px 15px rgba(10,184,187,0.4); display: inline-block; transition: 0.3s;">
+            Try the AdaBoost Application Now!
+        </a>
+    </div>
+</div>
 {% endblock %}

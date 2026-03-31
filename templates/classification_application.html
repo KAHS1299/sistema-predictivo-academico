@@ -2,28 +2,28 @@
 
 {% block content %}
 <div style="max-width: 600px; margin: 50px auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
-    <h2 style="text-align: center; color: #033d3d;">Análisis de Crédito con AdaBoost</h2>
-    <p style="text-align: center; color: #666;">Ingresa los datos del cliente para clasificar el riesgo.</p>
+    <h2 style="text-align: center; color: #033d3d;">Credit Analysis with AdaBoost</h2>
+    <p style="text-align: center; color: #666;">Enter the client's data to classify the risk.</p>
     
     <form action="/predict_classification" method="POST" style="display: flex; flex-direction: column; gap: 12px;">
         
-        <label>Edad:</label>
+        <label>Age:</label>
         <input type="number" name="age" step="any" required style="padding: 10px; border-radius: 10px; border: 1px solid #ccc;" placeholder="Ej. 25">
         
-        <label>Ingresos Anuales:</label>
+        <label>Annual Income:</label>
         <input type="number" name="income" step="any" required style="padding: 10px; border-radius: 10px; border: 1px solid #ccc;" placeholder="Ej. 50000">
         
-        <label>Monto del Préstamo:</label>
+        <label>Loan Amount:</label>
         <input type="number" name="loan" step="any" required style="padding: 10px; border-radius: 10px; border: 1px solid #ccc;" placeholder="Ej. 15000">
         
-        <label>Puntaje de Crédito (300-850):</label>
+        <label>Credit Score (300-850):</label>
         <input type="number" name="credit" step="any" required style="padding: 10px; border-radius: 10px; border: 1px solid #ccc;" placeholder="Ej. 700">
         
-        <label>Años de Experiencia Laboral:</label>
+        <label>Years of Work Experience:</label>
         <input type="number" name="exp" step="any" required style="padding: 10px; border-radius: 10px; border: 1px solid #ccc;" placeholder="Ej. 5">
         
         <button type="submit" style="background: #0ab8bb; margin-top: 10px; color: white; border: none; padding: 15px; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s;">
-            <i class="fas fa-robot"></i> Predecir con AdaBoost
+            <i class="fas fa-robot"></i> Predict with AdaBoost
         </button>
     </form>
 
