@@ -9,8 +9,8 @@ import os  # CORREGIDO: Importación simple de os
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 
 from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.ensemble import AdaBoostClassifier 
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, roc_curve, auc
 
 
 # --- CONFIGURACIÓN DE RUTAS ---
@@ -269,6 +269,7 @@ def predict_house_ml():
             prediction = model.predict([[rm]])
             result = f"Estimated Price (MEDV): {prediction[0]:.2f}"
 
+
             # -------- GRAFICA --------
             plt.figure()
 
@@ -394,6 +395,41 @@ def chat():
 
     return jsonify({"reply": reply})
 
+# ==============================
+# CLASIFICACIÓN CON ADABOOST
+# ==============================
+@app.route("/predict_classification", methods=["POST"])
+def predict_classification():
+    if not login_required():
+        return redirect(url_for("login"))
+
+    try:
+        X_ada = df_log[["Age", "Income", "LoanAmount", "CreditScore", "YearsExperience"]]
+        y_ada = df_log["LoanApproved"]
+
+        ada_model = AdaBoostClassifier(n_estimators=50, random_state=42)
+        ada_model.fit(X_ada, y_ada)
+
+        age = float(request.form.get("age", 0))
+        income = float(request.form.get("income", 0))
+        loan = float(request.form.get("loan", 0))
+        credit = float(request.form.get("credit", 0))
+        exp = float(request.form.get("exp", 0))
+
+        # Predicción
+        input_data = [[age, income, loan, credit, exp]]
+        prediction = ada_model.predict(input_data)[0]
+
+        # Definir resultado
+        if prediction == 1:
+            result = "Clase A: Crédito Aprobado (AdaBoost) ✅"
+        else:
+            result = "Clase B: Crédito Rechazado (AdaBoost) ❌"
+
+    except Exception as e:
+        result = f"Error en los datos: {str(e)}"
+
+    return render_template("classification_application.html", result=result)
 
 # ==============================
 # LOGOUT
@@ -402,17 +438,5 @@ def chat():
 def logout():
     session.pop("user", None)
     return redirect(url_for("login"))
-
-
-# ==============================
-# RUN APP
-# ==============================
-
-@app.route("/predict_classification", methods=["POST"])
-def predict_classification():
-    f1 = request.form["feat1"]
-    res = "Clase A" if float(f1) > 50 else "Clase B"
-    return render_template("classification_application.html", result=res)
-
 if __name__ == "__main__":
     app.run(debug=True)

@@ -2,24 +2,34 @@
 
 {% block content %}
 <div style="max-width: 600px; margin: 50px auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
-    <h2 style="text-align: center; color: #033d3d;">Modelo de Clasificación</h2>
-    <p style="text-align: center; color: #666;">Ingresa los datos para predecir la categoría.</p>
+    <h2 style="text-align: center; color: #033d3d;">Análisis de Crédito con AdaBoost</h2>
+    <p style="text-align: center; color: #666;">Ingresa los datos del cliente para clasificar el riesgo.</p>
     
-    <form action="/predict_classification" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
-        <label>Variable 1 (ej. Edad):</label>
-        <input type="number" name="feat1" step="any" required style="padding: 10px; border-radius: 10px; border: 1px solid #ccc;">
+    <form action="/predict_classification" method="POST" style="display: flex; flex-direction: column; gap: 12px;">
         
-        <label>Variable 2 (ej. Puntuación):</label>
-        <input type="number" name="feat2" step="any" required style="padding: 10px; border-radius: 10px; border: 1px solid #ccc;">
+        <label>Edad:</label>
+        <input type="number" name="age" step="any" required style="padding: 10px; border-radius: 10px; border: 1px solid #ccc;" placeholder="Ej. 25">
         
-        <button type="submit" style="background: #0ab8bb; color: white; border: none; padding: 15px; border-radius: 10px; cursor: pointer; font-weight: bold;">
-            Realizar Predicción
+        <label>Ingresos Anuales:</label>
+        <input type="number" name="income" step="any" required style="padding: 10px; border-radius: 10px; border: 1px solid #ccc;" placeholder="Ej. 50000">
+        
+        <label>Monto del Préstamo:</label>
+        <input type="number" name="loan" step="any" required style="padding: 10px; border-radius: 10px; border: 1px solid #ccc;" placeholder="Ej. 15000">
+        
+        <label>Puntaje de Crédito (300-850):</label>
+        <input type="number" name="credit" step="any" required style="padding: 10px; border-radius: 10px; border: 1px solid #ccc;" placeholder="Ej. 700">
+        
+        <label>Años de Experiencia Laboral:</label>
+        <input type="number" name="exp" step="any" required style="padding: 10px; border-radius: 10px; border: 1px solid #ccc;" placeholder="Ej. 5">
+        
+        <button type="submit" style="background: #0ab8bb; margin-top: 10px; color: white; border: none; padding: 15px; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s;">
+            <i class="fas fa-robot"></i> Predecir con AdaBoost
         </button>
     </form>
 
     {% if result %}
-    <div style="margin-top: 20px; padding: 15px; background: #e0f7f7; border-radius: 10px; text-align: center;">
-        <h3>Resultado: {{ result }}</h3>
+    <div style="margin-top: 20px; padding: 15px; background: #e0f7f7; border: 2px solid #0ab8bb; border-radius: 10px; text-align: center;">
+        <h3 style="color: #033d3d; margin: 0;">{{ result }}</h3>
     </div>
     {% endif %}
 </div>
