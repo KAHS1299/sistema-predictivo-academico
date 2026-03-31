@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="main">
+
+    <!-- INFO -->
+    <div class="card">
+        <h2>Loan Approval Prediction</h2>
+
+        <p><strong>Problem:</strong> Predict loan approval.</p>
+
+        <p><strong>Dataset:</strong> Loan risk dataset</p>
+
+        <p><strong>Inputs:</strong></p>
+        <ul>
+            <li>Age</li>
+            <li>Income</li>
+            <li>Loan Amount</li>
+            <li>Credit Score</li>
+            <li>Experience</li>
+        </ul>
+
+        <p><strong>Target:</strong> LoanApproved (0 / 1)</p>
+    </div>
+
+    <!-- FORM -->
+    <div class="card">
+        <h2>Prediction</h2>
+
+        <form method="post">
+
+            <input name="age" placeholder="Age" required>
+            <input name="income" placeholder="Income" required>
+            <input name="loan" placeholder="Loan Amount" required>
+            <input name="credit" placeholder="Credit Score" required>
+            <input name="exp" placeholder="Years Experience" required>
+
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if result %}
+        <div class="result">{{ result }}</div>
+        {% endif %}
+    </div>
+
+</div>
+
+<!-- METRICS -->
+<div class="graph-container">
+    <div class="graph-card">
+
+        <h2>Model Evaluation</h2>
+
+        <p><strong>Accuracy:</strong> {{ accuracy }}</p>
+        <p><strong>Precision:</strong> {{ precision }}</p>
+        <p><strong>Recall:</strong> {{ recall }}</p>
+        <p><strong>F1 Score:</strong> {{ f1 }}</p>
+
+        <h3>Confusion Matrix</h3>
+        <img src="data:image/png;base64,{{ cm_plot }}">
+
+        <h3>ROC Curve</h3>
+        <img src="data:image/png;base64,{{ roc_plot }}">
+
+    </div>
+</div>
+
+<div class="graph-container">
+    <div class="graph-card">
+
+        <h2>Data Visualization</h2>
+
+        <p>
+        This graph shows how applicants are distributed based on credit score
+        and loan amount. The highlighted point represents the user input.
+        </p>
+
+      <h3>Data Visualization</h3>
+
+        {% if dynamic_plot %}
+            <img src="data:image/png;base64,{{ dynamic_plot }}" style="width:100%;">
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

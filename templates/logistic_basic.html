@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="main">
+
+    <!-- CONCEPTOS -->
+    <div class="card">
+        <h2>Logistic Regression - Basic Concepts</h2>
+
+        <p><strong>What is Logistic Regression?</strong></p>
+        <p>
+            Logistic regression is a supervised Machine Learning algorithm used
+            for classification problems, especially binary classification.
+        </p>
+
+        <p><strong>Regression vs Classification:</strong></p>
+        <ul>
+            <li>Regression → predicts continuous values (e.g., price)</li>
+            <li>Classification → predicts categories (e.g., pass/fail)</li>
+        </ul>
+
+        <p><strong>Binary Classification:</strong></p>
+        <p>
+            It predicts one of two possible outcomes (0 or 1).
+        </p>
+
+        <p><strong>Target Variable:</strong></p>
+        <p>
+            The output class label (e.g., 0 = Fail, 1 = Pass)
+        </p>
+
+        <p><strong>Features:</strong></p>
+        <p>
+            Input variables used to make predictions (hours, attendance, etc.)
+        </p>
+    </div>
+
+    <!-- CONCEPTOS AVANZADOS -->
+    <div class="card">
+        <h2>Key Concepts</h2>
+
+        <p><strong>Probability Estimation:</strong></p>
+        <p>
+            Logistic regression predicts probabilities between 0 and 1.
+        </p>
+
+        <p><strong>Decision Boundary:</strong></p>
+        <p>
+            A threshold that separates classes (usually 0.5).
+        </p>
+
+        <p><strong>Classification Threshold:</strong></p>
+        <p>
+            If probability > 0.5 → class = 1  
+            If probability ≤ 0.5 → class = 0
+        </p>
+
+        <p><strong>Real-world Example:</strong></p>
+        <p>
+            Predict if a student will pass or fail based on study habits.
+        </p>
+    </div>
+
+</div>
+
+{% endblock %}
