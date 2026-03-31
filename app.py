@@ -1,11 +1,10 @@
 import matplotlib
 matplotlib.use('Agg')
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import io
 import base64
-import os
+import os  # CORREGIDO: Importación simple de os
 
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 
@@ -13,14 +12,19 @@ from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, roc_curve, auc
 
+
+# --- CONFIGURACIÓN DE RUTAS ---
 ruta_base = os.path.dirname(os.path.abspath(__file__))
+# 2. Carga de Boston
 ruta_csv = os.path.join(ruta_base, "boston.csv")
 df = pd.read_csv(ruta_csv)
+# 3. Carga de Loan Risk
+ruta_loan = os.path.join(ruta_base, "loan_risk_prediction_dataset.csv")
+df_log = pd.read_csv(ruta_loan)
 
+# Modelo Lineal inicial
 X = df[["RM"]]
 y = df["MEDV"]
-
-model = LinearRegression()
 model = LinearRegression()
 model.fit(X, y)
 
@@ -28,18 +32,15 @@ app = Flask(__name__)
 app.secret_key = "secure_key"
 
 #-------------DATASET LOGISTIC----------------
-
-df_log = pd.read_csv("loan_risk_prediction_dataset.csv")
-
+# Usamos el df_log cargado con la ruta segura
 num_cols = df_log.select_dtypes(include=['number']).columns
 df_log = df_log.dropna()
-
 df_log[num_cols] = df_log[num_cols].fillna(df_log[num_cols].mean())
 
-X = df_log[["Age","Income","LoanAmount","CreditScore","YearsExperience"]]
-y = df_log["LoanApproved"]
+X_log = df_log[["Age","Income","LoanAmount","CreditScore","YearsExperience"]]
+y_log = df_log["LoanApproved"]
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+X_train, X_test, y_train, y_test = train_test_split(X_log, y_log, test_size=0.2)
 
 log_model = LogisticRegression(max_iter=1000)
 log_model.fit(X_train, y_train)
@@ -161,28 +162,23 @@ def logistic_application():
 
             result = f"Approved ✅ (Probability: {prob:.2f})" if pred[0] == 1 else f"Rejected ❌ (Probability: {prob:.2f})"
 
+            # ===== GRAFICA DINAMICA =====
+            plt.figure()
+            plt.scatter(df_log["CreditScore"], df_log["LoanAmount"], c=df_log["LoanApproved"])
+            plt.scatter(credit, loan, marker='o', s=150, color='red')
+            plt.xlabel("Credit Score")
+            plt.ylabel("Loan Amount")
+            plt.title("Loan Approval Distribution")
+
+            img = io.BytesIO()
+            plt.savefig(img, format='png')
+            img.seek(0)
+
+            dynamic_plot = base64.b64encode(img.getvalue()).decode()
+            plt.close()
+
         except:
             result = "Error in input data"
-
-        # ===== GRAFICA DINAMICA =====
-        plt.figure()
-
-        # datos reales
-        plt.scatter(df_log["CreditScore"], df_log["LoanAmount"], c=y)
-
-        # punto del usuario
-        plt.scatter(credit, loan, marker='o', s=150)
-
-        plt.xlabel("Credit Score")
-        plt.ylabel("Loan Amount")
-        plt.title("Loan Approval Distribution")
-
-        img = io.BytesIO()
-        plt.savefig(img, format='png')
-        img.seek(0)
-
-        dynamic_plot = base64.b64encode(img.getvalue()).decode()
-        plt.close()
 
     # METRICAS
     y_pred = log_model.predict(X_test)
@@ -231,6 +227,7 @@ def logistic_application():
         roc_plot=roc_plot,
         dynamic_plot=dynamic_plot,
     )
+
 @app.route("/logistic_explanation")
 def logistic_explanation():
     if not login_required():
@@ -338,7 +335,6 @@ def predict_health():
         return redirect(url_for("login"))
 
     try:
-        age = int(request.form["age"])
         heart = int(request.form["heart"])
         pressure = int(request.form["pressure"])
 
@@ -415,8 +411,6 @@ def logout():
 @app.route("/predict_classification", methods=["POST"])
 def predict_classification():
     f1 = request.form["feat1"]
-    f2 = request.form["feat2"]
-    # Por ahora, una lógica simple para probar que el botón funciona:
     res = "Clase A" if float(f1) > 50 else "Clase B"
     return render_template("classification_application.html", result=res)
 
