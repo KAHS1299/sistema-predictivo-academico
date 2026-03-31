@@ -48,7 +48,7 @@
         <p>Bienvenido. Selecciona una opción para comenzar el análisis.</p>
         <div class="grid">
             <div class="card">
-                <img src="https://via.placeholder.com/150" alt="ML">
+                <img src="{{ url_for('static', filename='images/house.jpg.png') }}" alt="ML">
                 <h3>Machine Learning</h3>
                 <p>Modelos de regresión lineal.</p>
             </div>
@@ -79,6 +79,5 @@ Navigate through the different modules to discover how data can be transformed i
     </div>
 </div>
 {% endblock %}
-
 </body>
 </html>
