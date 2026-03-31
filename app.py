@@ -5,9 +5,6 @@ import io
 import base64
 from sklearn.linear_model import LinearRegression
 
-# ==============================
-# CARGAR DATASET Y MODELO
-# ==============================
 df = pd.read_csv("boston.csv")
 
 # Usamos una variable para graficar (RM vs MEDV)
