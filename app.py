@@ -1,19 +1,21 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+import matplotlib
+matplotlib.use('Agg')
 
 import pandas as pd
 import matplotlib.pyplot as plt
 import io
 import base64
-import matplotlib
-matplotlib.use('Agg')
+import os
 
-import matplotlib.pyplot as plt
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, roc_curve, auc
 
-df = pd.read_csv("boston.csv")
+ruta_base = os.path.dirname(os.path.abspath(__file__))
+ruta_csv = os.path.join(ruta_base, "boston.csv")
+df = pd.read_csv(ruta_csv)
 
 X = df[["RM"]]
 y = df["MEDV"]
