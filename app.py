@@ -4,7 +4,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import io
 import base64
-import os  # CORREGIDO: Importación simple de os
+import os 
+
+from sklearn.metrics import roc_curve, auc
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    confusion_matrix
+)
 
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 
