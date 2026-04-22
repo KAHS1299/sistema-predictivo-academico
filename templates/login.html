@@ -2,72 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width= device-width, initial-scale=1.0">
-    <title>Login Moderno</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-            body {
-                height: 100vh;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: linear-gradient(-45deg, #000000, #033d3d, #00ffaa, #0a0a0a);
-                background-size: 400% 400%;
-                animation: gradient 12s ease infinite;
-                margin: 0;
-            }
-            
-            @keyframes gradient {
-                0% {background-position: 0% 50%;}
-                50% {background-position: 100% 50%;}
-                100% {background-position: 0% 50%;}
-            }
-            .login-card {
-                width: 100%;
-                max-width: 380px;
-                background: rgba(255, 255, 255, 0.95);
-                border-radius: 20px;
-                border: none;
-                padding: 40px;
-                box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            }
-            .btn-custom{
-                background: #0ab8bb;
-                background: linear-gradient(to right, #0ab8bb,#23a6d5 #23d5ab);
-                border: none;
-                color: grey;
-                font-weight: bold;
-                transition: transform 0.3s ease;
-            }
-            .btn-custom:hover{
-                transform: scale(1.05);
-                color: white;
-                filter: brightness(1.1);
-            }
-            .from-control:focus{
-                border: color black;
-                box-shadow: 0 0 0 0.25rem rgba(231,60,126,0.25);
-            }
-    </style>
-</head>            
-        <div class="login-card">
-            <h3 class="text-center mb-4 fw-bold" style="color:#444;">Welcome</h3>
-            <form method="POST" action="/">
-                <div class="mb-3">
-                <input type="text" name="username" class="form-control py-2" placeholder="User" required>
-            </div>
-            <div class="mb-4">
-                <input type="password" name="password" class="form-control py-2" placeholder="Password" required>
-            </div>
-            
-            <button type="submit" class="btn btn-custom w-100 py-2 shadow-sm">
-                LOG IN
-            </button>
+    <title>Login</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+
+<div class="login-wrapper">
+    <div class="login-card">
+        <h2>Welcome</h2>
+
+        {% if error %}
+            <p style="color:red;">{{ error }}</p>
+        {% endif %}
+
+        <form method="POST" action="/login">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+
+            <button type="submit">LOGIN</button>
         </form>
-        
-        <div class="text-center mt-3">
-            <small class="text-muted">Forgot password?</small>
+
+        <div class="login-extra">
+            <a href="#">Forgot your password?</a>
         </div>
     </div>
+</div>
+
 </body>
-</html>  
+</html>

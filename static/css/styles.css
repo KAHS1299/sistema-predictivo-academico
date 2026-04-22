@@ -2,7 +2,7 @@
 body {
     margin: 0;
     font-family: 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(135deg, #7b2ff7, #f107a3);
+    background: linear-gradient(135deg, #74a8aa, #06a99e);
     min-height: 100vh;
 }
 
@@ -12,7 +12,7 @@ body {
     left: 0;
     width: 100%;
     height: 80px;
-    background: #65008e;
+    background: #008e8e;
 
     display: flex;
     justify-content: center;
@@ -260,4 +260,86 @@ button:hover {
     box-shadow: 0 25px 60px rgba(0,0,0,0.3);
 
     text-align: center;
+}
+/* ==============================
+   MODERN LOGIN
+============================== */
+.login-wrapper {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* LOGIN CARD */
+.login-card {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+
+    padding: 60px 50px;
+    border-radius: 25px;
+
+    width: 420px;
+
+    box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+
+    text-align: center;
+
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.login-card h2 {
+    font-size: 32px;
+    margin-bottom: 25px;
+    color: #1e293b;
+}
+
+/* INPUTS */
+.login-card input {
+    font-size: 16px;
+    padding: 14px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+/* BUTTON */
+.login-card button {
+    font-size: 16px;
+    padding: 14px;
+    border-radius: 12px;
+
+    background: linear-gradient(135deg, #0ab4b4, #a0e7de);
+}
+
+.login-card button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* EXTRA TEXT */
+.login-extra {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.login-extra a {
+    color: #1db1ac;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-extra a:hover {
+    text-decoration: underline;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
