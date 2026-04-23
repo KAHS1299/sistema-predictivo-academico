@@ -132,23 +132,29 @@ def logistic_application():
         return redirect(url_for('home'))
     return render_template('logistic_application.html')
 
+# ==============================
+# UNSUPERVISED - STRUCTURE
+# ==============================
 
-# ==============================
-# UNSUPERVISED ML
-# ==============================
-@app.route('/unsupervised_explanation')
-def unsupervised_explanation():
+@app.route('/unsupervised_basics')
+def unsupervised_basics():
     if not login_required():
         return redirect(url_for('home'))
-    return render_template('unsupervised_explanation.html')
+    return render_template('unsupervised_basics.html')
 
 
-@app.route('/unsupervised_application')
-def unsupervised_application():
+@app.route('/kmeans_manual')
+def kmeans_manual():
     if not login_required():
         return redirect(url_for('home'))
-    return render_template('unsupervised_application.html')
+    return render_template('kmeans_manual.html')
 
+
+@app.route('/kmeans_application')
+def kmeans_application():
+    if not login_required():
+        return redirect(url_for('home'))
+    return render_template('kmeans_application.html')
 
 # ==============================
 # RUN APP

@@ -128,22 +128,28 @@
         <a href="/classification_application">Credit Analysis</a>
     </div>
 </div>
-        <!-- UNSUPERVISED ML -->
-        <div class="dropdown">
-            <button class="nav-btn">ML No Supervisado ▼</button>
-            <div class="dropdown-menu">
 
-                <!-- CLUSTERING -->
-                <div class="submenu-container">
-                    <span>Clustering ▶</span>
-                    <div class="submenu">
-                        <a href="/unsupervised_explanation">Explicación</a>
-                        <a href="/unsupervised_application">Aplicación</a>
-                    </div>
-                </div>
+<div class="dropdown">
+    <button class="nav-btn">ML Unsupervised ▼</button>
 
+    <div class="dropdown-menu">
+
+        <!-- BASIC CONCEPTS -->
+        <a href="{{ url_for('unsupervised_basics') }}">
+            Basic Concepts
+        </a>
+
+        <!-- KMEANS -->
+        <div class="submenu-container">
+            <span>K-Means ▶</span>
+            <div class="submenu">
+                <a href="{{ url_for('kmeans_manual') }}">Manual Exercise</a>
+                <a href="{{ url_for('kmeans_application') }}">Application</a>
             </div>
         </div>
+
+    </div>
+</div>
         <!-- SUPERVISED ML -->
         <div class="dropdown">
             <button class="nav-btn">Supervised ML ▼</button>

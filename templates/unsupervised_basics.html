@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-container">
+    <div class="dashboard-card">
+
+        <!-- TITLE -->
+        <h1 class="main-title">Unsupervised Machine Learning</h1>
+
+        <!-- MAIN DEFINITION -->
+        <div class="main-definition">
+            <p>
+                Unsupervised learning is a type of machine learning that identifies patterns, 
+                structures, and relationships in data without the use of labeled outputs. 
+                The model explores the data and groups or organizes it based on similarities.
+            </p>
+        </div>
+
+        <!-- GRID OF CONCEPTS -->
+        <div class="features">
+
+            <div class="feature-box">
+                <h3>Clustering</h3>
+                <p>
+                    Clustering is the process of grouping data points into clusters where elements 
+                    in the same group are more similar to each other than to those in other groups.
+                </p>
+            </div>
+
+            <div class="feature-box">
+                <h3>K-Means Algorithm</h3>
+                <p>
+                    K-Means is a clustering algorithm that partitions data into K groups. 
+                    Each group is defined by a centroid, and data points are assigned based on proximity.
+                </p>
+            </div>
+
+            <div class="feature-box">
+                <h3>Centroids</h3>
+                <p>
+                    A centroid represents the center of a cluster. It is calculated as the average 
+                    position of all data points within a cluster.
+                </p>
+            </div>
+
+            <div class="feature-box">
+                <h3>Distance Metrics</h3>
+                <p>
+                    Distance measures how close or far data points are. The most common metric 
+                    used in K-Means is the Euclidean distance.
+                </p>
+            </div>
+
+            <div class="feature-box">
+                <h3>Iterative Process</h3>
+                <p>
+                    The algorithm repeatedly assigns points to clusters and recalculates centroids 
+                    until the clusters stabilize and no longer change significantly.
+                </p>
+            </div>
+
+            <div class="feature-box">
+                <h3>Variance and Convergence</h3>
+                <p>
+                    K-Means minimizes the variance within each cluster. Convergence is reached 
+                    when centroids stop moving or the change becomes negligible.
+                </p>
+            </div>
+
+            <div class="feature-box">
+                <h3>Real-World Applications</h3>
+                <p>
+                    Unsupervised learning is used in customer segmentation, anomaly detection, 
+                    recommendation systems, image compression, and pattern recognition.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

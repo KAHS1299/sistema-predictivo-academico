@@ -45,7 +45,7 @@ body {
 
 .nav-btn:hover {
     background: #0ab8bb;
-    color: black;
+    color: rgb(1, 91, 118);
 }
 
 .dropdown {
@@ -58,7 +58,7 @@ body {
     top: 100%;
     left: 0;
 
-    background: #1c1c1c;
+    background: #015b7c;
     border-radius: 12px;
     padding: 10px;
     min-width: 200px;
@@ -313,7 +313,7 @@ button:hover {
 
 .login-card button:hover {
     transform: scale(1.05);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 25px rgba(1, 120, 146, 0.3);
 }
 
 /* EXTRA TEXT */
@@ -342,4 +342,58 @@ button:hover {
         opacity: 1;
         transform: translateY(0);
     }
+}
+/* ==============================
+   UNSUPERVISED CARDS GRID
+============================== */
+
+.subtitle {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);  
+    gap: 25px;
+
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.features .feature-box:last-child {
+    grid-column: 2 / 3;
+}
+
+.feature-box {
+    background: linear-gradient(135deg, #0ab8bb, #0f766e);
+    color: white;
+
+    padding: 20px;
+    border-radius: 18px;
+
+    box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+
+    transition: 0.3s;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.feature-box:hover {
+    transform: translateY(-8px) scale(1.03);
+}
+
+.feature-box h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.feature-box p {
+    font-size: 14px;
+    line-height: 1.5;
 }
