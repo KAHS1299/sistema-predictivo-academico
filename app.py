@@ -10,6 +10,8 @@ app.secret_key = "secret123"
 USER = "admin"
 PASSWORD = "1234"
 
+#test
+
 
 # ==============================
 # LOGIN REQUIRED FUNCTION
