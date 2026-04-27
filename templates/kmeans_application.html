@@ -1,0 +1,26 @@
+<h2>Clustering Application</h2>
+
+<h3>Dataset Context</h3>
+<p>This dataset represents numerical patterns for clustering.</p>
+
+<h3>Dataset Description</h3>
+<ul>
+  <li>Records: 1000+</li>
+  <li>Features: Feature1, Feature2</li>
+</ul>
+
+<h3>Cluster Results</h3>
+{{ tables | safe }}
+
+<h3>Centroids</h3>
+<ul>
+  {% for c in centroids %}
+    <li>{{ c }}</li>
+  {% endfor %}
+</ul>
+
+<h3>Visualization</h3>
+<img src="{{ image }}" width="500">
+
+<h3>Interpretation</h3>
+<p>The clusters show grouping of similar values and clear separation.</p>

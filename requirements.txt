@@ -13,6 +13,7 @@ pandas==2.2.2
 scikit-learn==1.5.0
 scipy==1.13.1
 joblib==1.4.2
+openpyxl
 
 # --- Visualización ---
 matplotlib==3.9.0

@@ -1,4 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+import pandas as pd
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+import os
 
 app = Flask(__name__)
 app.secret_key = "secret123"
@@ -151,13 +155,48 @@ def kmeans_manual():
         return redirect(url_for('home'))
     return render_template('kmeans_manual.html')
 
-
 @app.route('/kmeans_application')
 def kmeans_application():
-    if not login_required():
-        return redirect(url_for('home'))
-    return render_template('kmeans_application.html')
 
+    df = pd.read_excel('kmeans_dataset.xlsx')
+
+    # 👇 usar columnas reales de tu archivo
+    X = df[['Products_Sold (X)', 'Profit (Y)']]
+
+    # convertir a numérico (por si acaso)
+    X = X.apply(pd.to_numeric, errors='coerce')
+
+    # eliminar nulos
+    X = X.dropna()
+
+    if X.empty:
+        return "Error: dataset vacío después de limpieza"
+
+    # modelo
+    kmeans = KMeans(n_clusters=3, random_state=42)
+    df = df.loc[X.index]  # alinear índices
+    df['Cluster'] = kmeans.fit_predict(X)
+
+    centroids = kmeans.cluster_centers_
+
+    # gráfica
+    plt.figure(figsize=(7,5))
+    plt.scatter(X.iloc[:,0], X.iloc[:,1], c=df['Cluster'])
+    plt.scatter(centroids[:,0], centroids[:,1], marker='X', s=250)
+
+    os.makedirs('static/img', exist_ok=True)
+    img_path = 'static/img/clusters.png'
+    plt.savefig(img_path)
+    plt.close()
+
+    return render_template(
+        'kmeans_application.html',
+        tables=df.head(100).to_html(classes='table table-dark table-striped'),
+        centroids=centroids,
+        image=img_path,
+        total=len(df),
+        columns=['Products_Sold (X)', 'Profit (Y)']
+    )
 # ==============================
 # RUN APP
 # ==============================
