@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import pandas as pd
 from sklearn.cluster import KMeans
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import os
 
@@ -160,29 +162,32 @@ def kmeans_application():
 
     df = pd.read_excel('kmeans_dataset.xlsx')
 
-    # 👇 usar columnas reales de tu archivo
-    X = df[['Products_Sold (X)', 'Profit (Y)']]
+    X = df[['Products_Sold (X)', 'Profit (Y)']].copy()
+    X = X.apply(pd.to_numeric, errors='coerce').dropna()
 
-    # convertir a numérico (por si acaso)
-    X = X.apply(pd.to_numeric, errors='coerce')
+    if X.empty or X.shape[1] < 2:
+        return "Error: dataset vacío o columnas inválidas"
 
-    # eliminar nulos
-    X = X.dropna()
-
-    if X.empty:
-        return "Error: dataset vacío después de limpieza"
-
-    # modelo
     kmeans = KMeans(n_clusters=3, random_state=42)
-    df = df.loc[X.index]  # alinear índices
+    df = df.loc[X.index].copy()
     df['Cluster'] = kmeans.fit_predict(X)
-
     centroids = kmeans.cluster_centers_
 
-    # gráfica
-    plt.figure(figsize=(7,5))
-    plt.scatter(X.iloc[:,0], X.iloc[:,1], c=df['Cluster'])
-    plt.scatter(centroids[:,0], centroids[:,1], marker='X', s=250)
+    summary = (
+        df.groupby('Cluster')[['Products_Sold (X)', 'Profit (Y)']]
+          .agg(['count','mean','min','max'])
+          .round(2)
+    )
+
+    plt.figure(figsize=(8,6))
+    plt.scatter(X.iloc[:,0], X.iloc[:,1], c=df['Cluster'], cmap='viridis', s=60)
+    plt.scatter(centroids[:,0], centroids[:,1],
+                color='red', s=300, marker='X', label='Centroids')
+    plt.title('K-Means Clustering')
+    plt.xlabel('Products Sold')
+    plt.ylabel('Profit')
+    plt.legend()
+    plt.tight_layout()
 
     os.makedirs('static/img', exist_ok=True)
     img_path = 'static/img/clusters.png'
@@ -191,12 +196,16 @@ def kmeans_application():
 
     return render_template(
         'kmeans_application.html',
-        tables=df.head(100).to_html(classes='table table-dark table-striped'),
+        tables=df.head(40).to_html(
+            classes='table table-striped table-hover text-center', index=False
+        ),
+        summary=summary.to_html(classes='table table-sm table-striped text-center'),
         centroids=centroids,
         image=img_path,
         total=len(df),
         columns=['Products_Sold (X)', 'Profit (Y)']
     )
+
 # ==============================
 # RUN APP
 # ==============================

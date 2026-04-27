@@ -224,7 +224,7 @@ button:hover {
     padding: 12px;
 
     background: #e0f2fe;
-    border-left: 5px solid #0284c7;
+    border-left: 5px solid #07a8a5;
     border-radius: 6px;
 }
 
@@ -349,7 +349,7 @@ button:hover {
 
 .subtitle {
     font-size: 18px;
-    color: #555;
+    color: #000e0c;
     margin-bottom: 30px;
     text-align: center;
 }
@@ -396,4 +396,61 @@ button:hover {
 .feature-box p {
     font-size: 14px;
     line-height: 1.5;
+}
+
+/* TITLES */
+.title {
+    font-weight: bold;
+    color: #018782;
+}
+
+/* CARD STYLE */
+.card-box {
+    background: #dae0df;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+}
+
+/* TABLE */
+.table-container {
+    overflow-x: auto;
+}
+
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table thead {
+    background-color: #000610;
+    color: white;
+}
+
+/* CENTROIDS */
+.centroid-container {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.centroid-card {
+    background: linear-gradient(135deg, #74a8aa, #1ca694);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    width: 150px;
+    text-align: center;
+}
+
+/* GRAPH */
+.chart-img {
+    max-width: 600px;
+    margin-top: 10px;
+}
+
+/* BACKGROUND */
+body {
+    background: linear-gradient(135deg, #e3f2fd, #ffffff);
 }
