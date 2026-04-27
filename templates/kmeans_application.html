@@ -1,26 +1,64 @@
-<h2>Clustering Application</h2>
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
 
-<h3>Dataset Context</h3>
-<p>This dataset represents numerical patterns for clustering.</p>
+  <h2 class="title mb-4">K-Means Clustering Dashboard</h2>
 
-<h3>Dataset Description</h3>
-<ul>
-  <li>Records: 1000+</li>
-  <li>Features: Feature1, Feature2</li>
-</ul>
+  <!-- OVERVIEW -->
+  <div class="card-box">
+    <h4>Dataset Overview</h4>
+    <div class="row">
+      <div><strong>Total Records:</strong> {{ total }}</div>
+      <div><strong>Features:</strong> {{ columns[0] }}, {{ columns[1] }}</div>
+      <div><strong>Clusters:</strong> 3</div>
+    </div>
+  </div>
 
-<h3>Cluster Results</h3>
-{{ tables | safe }}
+  <!-- GRAPH -->
+  <div class="card-box text-center">
+    <h4>Cluster Visualization</h4>
+    <img src="{{ image }}" class="chart-img">
+  </div>
 
-<h3>Centroids</h3>
-<ul>
-  {% for c in centroids %}
-    <li>{{ c }}</li>
-  {% endfor %}
-</ul>
+  <!-- CENTROIDS -->
+  <div class="card-box">
+    <h4>Centroids</h4>
+    <div class="centroid-container">
+      {% for c in centroids %}
+      <div class="centroid-card">
+        <p>X: {{ c[0]|round(2) }}</p>
+        <p>Y: {{ c[1]|round(2) }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
 
-<h3>Visualization</h3>
-<img src="{{ image }}" width="500">
+  <!-- SUMMARY -->
+  <div class="card-box">
+    <h4>Cluster Summary</h4>
+    <div class="table-container">
+      {{ summary | safe }}
+    </div>
+  </div>
 
-<h3>Interpretation</h3>
-<p>The clusters show grouping of similar values and clear separation.</p>
+  <!-- TABLE -->
+  <div class="card-box">
+    <h4>Cluster Results (Sample)</h4>
+    <div class="table-container">
+      {{ tables | safe }}
+    </div>
+  </div>
+
+  <!-- INTERPRETATION -->
+  <div class="card-box">
+    <h4>Interpretation</h4>
+    <p>
+      The K-Means algorithm segmented the dataset into three clusters based on
+      product sales and profit. Each cluster represents a distinct behavioral
+      pattern. Centroids indicate the average position of each segment, enabling
+      decision-making for pricing and sales strategies.
+    </p>
+  </div>
+
+</div>
+{% endblock %}
