@@ -1,50 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ML App</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
+    <title>ML App</title>
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            margin-top: 90px;
-            background: linear-gradient(135deg, #71e9f2, #033d3d);
-        }
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        margin-top: 100px;
+        background: linear-gradient(135deg, #71e9f2, #033d3d);
+    }
 
-        /* NAVBAR */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            height: 80px;
-            background: #010609;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
+    /* NAVBAR MEJORADA */
+    .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 85px;
+        background: linear-gradient(90deg, #010609, #022c2c);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
 
-        .nav-container {
-            display: flex;
-            gap: 40px;
-        }
+    .nav-container {
+        display: flex;
+        gap: 50px;
+    }
 
-        .nav-btn {
-            background: transparent;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 15px;
-            font-size: 20px;
-            cursor: pointer;
-            transition: 0.3s;
-            text-decoration: none;
-        }
+    /* BOTONES */
+    .nav-btn {
+        color: white;
+        padding: 12px 22px;
+        border-radius: 12px;
+        font-size: 18px;
+        text-decoration: none;
+        transition: 0.3s;
+        letter-spacing: 0.5px;
+    }
 
-        .nav-btn:hover {
-            background: #0ab8bb;
-            color: black;
-        }
+    .nav-btn:hover {
+        background: linear-gradient(135deg, #0ab8bb, #0f9fa3);
+        color: black;
+    }
 
         /* DROPDOWN */
         .dropdown {

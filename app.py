@@ -168,17 +168,20 @@ def kmeans_application():
     if X.empty or X.shape[1] < 2:
         return "Error: dataset vacío o columnas inválidas"
 
+    # KMEANS
     kmeans = KMeans(n_clusters=3, random_state=42)
     df = df.loc[X.index].copy()
     df['Cluster'] = kmeans.fit_predict(X)
     centroids = kmeans.cluster_centers_
 
+    # SUMMARY
     summary = (
         df.groupby('Cluster')[['Products_Sold (X)', 'Profit (Y)']]
           .agg(['count','mean','min','max'])
           .round(2)
     )
 
+    # ====== CLUSTER GRAPH ======
     plt.figure(figsize=(8,6))
     plt.scatter(X.iloc[:,0], X.iloc[:,1], c=df['Cluster'], cmap='viridis', s=60)
     plt.scatter(centroids[:,0], centroids[:,1],
@@ -190,10 +193,31 @@ def kmeans_application():
     plt.tight_layout()
 
     os.makedirs('static/img', exist_ok=True)
+
     img_path = 'static/img/clusters.png'
     plt.savefig(img_path)
     plt.close()
 
+    # ====== VARIANCE GRAPH ======
+    inertia_values = []
+
+    for k in range(1, 6):
+        km = KMeans(n_clusters=k, random_state=42)
+        km.fit(X)
+        inertia_values.append(km.inertia_)
+
+    plt.figure()
+    plt.plot(range(1,6), inertia_values, marker='o')
+    plt.title('Variance Reduction Across Iterations')
+    plt.xlabel('Clusters')
+    plt.ylabel('Variance')
+    plt.grid()
+
+    variance_path = 'static/img/variance.png'
+    plt.savefig(variance_path)
+    plt.close()
+
+    # ====== RETURN ======
     return render_template(
         'kmeans_application.html',
         tables=df.head(40).to_html(
@@ -202,6 +226,7 @@ def kmeans_application():
         summary=summary.to_html(classes='table table-sm table-striped text-center'),
         centroids=centroids,
         image=img_path,
+        variance_img=variance_path,  
         total=len(df),
         columns=['Products_Sold (X)', 'Profit (Y)']
     )

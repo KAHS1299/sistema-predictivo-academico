@@ -2,43 +2,43 @@
 {% block content %}
 <div class="container mt-4">
 
-  <h2 class="title mb-4">K-Means Clustering Dashboard</h2>
+  <h2 class="dashboard-title">K-Means Clustering Dashboard</h2>
 
-   <!-- INTERPRETATION -->
-  <div class="card-box">
-    <h4>Interpretation</h4>
-    <p>
-      The K-Means algorithm segmented the dataset into three clusters based on
-      product sales and profit. Each cluster represents a distinct behavioral
-      pattern. Centroids indicate the average position of each segment, enabling
-      decision-making for pricing and sales strategies.
-    </p>
-  </div>
-
-  <!-- OVERVIEW -->
+  <!-- DATASET OVERVIEW -->
   <div class="card-box">
     <h4>Dataset Overview</h4>
-    <div class="row">
+    <div class="stats">
       <div><strong>Total Records:</strong> {{ total }}</div>
       <div><strong>Features:</strong> {{ columns[0] }}, {{ columns[1] }}</div>
       <div><strong>Clusters:</strong> 3</div>
     </div>
   </div>
 
-  <!-- GRAPH -->
-  <div class="card-box text-center">
-    <h4>Cluster Visualization</h4>
-    <img src="{{ image }}" class="chart-img">
+ <div class="card-box">
+  <div class="graph-row">
+
+    <div class="graph-box">
+      <h4>Cluster Visualization</h4>
+      <img src="{{ image }}" class="chart-img">
+    </div>
+
+    <div class="graph-box">
+      <h4>Variance Reduction</h4>
+      <img src="{{ variance_img }}" class="chart-img">
+    </div>
+
   </div>
+</div>
 
   <!-- CENTROIDS -->
   <div class="card-box">
-    <h4>Centroids</h4>
+    <h4>Cluster Centroids</h4>
     <div class="centroid-container">
       {% for c in centroids %}
       <div class="centroid-card">
-        <p>X: {{ c[0]|round(2) }}</p>
-        <p>Y: {{ c[1]|round(2) }}</p>
+        <h5>Cluster {{ loop.index }}</h5>
+        <p><strong>X:</strong> {{ c[0]|round(2) }}</p>
+        <p><strong>Y:</strong> {{ c[1]|round(2) }}</p>
       </div>
       {% endfor %}
     </div>
@@ -58,6 +58,17 @@
     <div class="table-container">
       {{ tables | safe }}
     </div>
+  </div>
+
+  <!-- INTERPRETATION -->
+  <div class="card-box highlight">
+    <h4>Interpretation</h4>
+    <p>
+      The K-Means algorithm segmented the dataset into three clusters based on
+      product sales and profit. Each cluster represents a distinct behavioral
+      pattern. Centroids indicate the average position of each segment,
+      supporting decision-making in pricing and sales strategies.
+    </p>
   </div>
 
 </div>
