@@ -150,6 +150,11 @@ def unsupervised_basics():
         return redirect(url_for('home'))
     return render_template('unsupervised_basics.html')
 
+@app.route('/manual_exercise')
+def manual_exercise():
+    if not login_required():
+        return redirect(url_for('home'))
+    return render_template('manual_exercise.html')
 
 @app.route('/kmeans_manual')
 def kmeans_manual():

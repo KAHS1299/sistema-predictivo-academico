@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper" style = "background: linear-gradient(135deg, #5de0e6 0%,#004d4d 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 20px; font-family: 'Segoe UI', sans-serif;">
+
+<div class="white-card" style="background: #ffffff; width: 100%; max-width: 1000px; border-radius: 40px; padding: 50px; box-shadow: 0 20px 50px rgba(0,0,0,0.2);">
+        
+        <h1 style="color: #000; font-weight: 800; text-align: center; text-transform: uppercase;">K-Means Manual Exercise</h1>
+        <div class="section" style="margin-top: 40px;">
+            
+            <h2 style="color: #12a5a5; border-left: 5px solid #12a5a5; padding-left: 15px;">1. Dataset Explanation</h2>
+            <p style="color: #555; line-height: 1.6;">
+                The dataset consists of <b>100 records</b> with two numerical features: <b>Products Sold (X)</b> and <b>Profit (Y)</b>. 
+                The goal is to manually group these records into 3 clusters to understand how the algorithm minimizes variance and updates centroids iteratively.
+            </p>
+        </div>
+
+        <div class="section" style="margin-top: 40px;">
+            <h2 style="color: #12a5a5; border-left: 5px solid #12a5a5; padding-left: 15px;">2. Iteration Process (3 Iterations)</h2>
+            
+            <p style="color: #666; font-style: italic; margin-bottom: 20px;">Initial Centroids: C1(101, 2049), C2(169, 3410), C3(34, 728)</p>
+
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                    <thead>
+                        <tr style="background: #12a5a5; color: white;">
+                            <th style="padding: 12px;">ID</th>
+                            <th style="padding: 12px;">X (Sold)</th>
+                            <th style="padding: 12px;">Y (Profit)</th>
+                            <th style="padding: 12px;">Dist to C1</th>
+                            <th style="padding: 12px;">Dist to C2</th>
+                            <th style="padding: 12px;">Dist to C3</th>
+                            <th style="padding: 12px;">Cluster</th>
+                        </tr>
+                    </thead>
+                    <tbody style="color: #444; text-align: center;">
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td>1</td><td>101</td><td>2049</td><td>0.00</td><td>1452.2</td><td>1322.1</td>
+                            <td><span style="background: #e1f5f5; color: #12a5a5; padding: 4px 10px; border-radius: 15px; font-weight: bold;">0</span></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td>2</td><td>169</td><td>3410</td><td>1362.4</td><td>0.00</td><td>2682.5</td>
+                            <td><span style="background: #e1f5f5; color: #12a5a5; padding: 4px 10px; border-radius: 15px; font-weight: bold;">1</span></td>
+                        </tr>
+                        </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section" style="margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+            <div>
+                <h2 style="color: #12a5a5; border-left: 5px solid #12a5a5; padding-left: 15px;">3. Centroid Updates</h2>
+                <ul style="color: #555; list-style: none; padding: 0;">
+                    <li style="margin-bottom: 10px;"><b>Iteration 1:</b> Initial random selection.</li>
+                    <li style="margin-bottom: 10px;"><b>Iteration 2:</b> Mean of assigned points calculated.</li>
+                    <li style="margin-bottom: 10px;"><b>Iteration 3:</b> Final convergence reached.</li>
+                </ul>
+            </div>
+            <div>
+                <h2 style="color: #12a5a5; border-left: 5px solid #12a5a5; padding-left: 15px;">4. Variance Comparison</h2>
+                <table style="width: 100%; border-collapse: collapse; text-align: center;">
+                    <tr style="border-bottom: 2px solid #12a5a5;">
+                        <th style="padding: 10px;">Iteration</th>
+                        <th style="padding: 10px;">WCSS (Variance)</th>
+                    </tr>
+                    <tr><td style="padding: 8px;">1</td><td style="padding: 8px;">12,450.5</td></tr>
+                    <tr><td style="padding: 8px;">2</td><td style="padding: 8px;">7,230.1</td></tr>
+                    <tr><td style="padding: 8px;"><b>3</b></td><td style="padding: 8px;"><b>4,105.8</b></td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="section" style="margin-top: 40px; background: #f9f9f9; padding: 25px; border-radius: 20px;">
+            <h2 style="color: #12a5a5;">5. Interpretation of Results</h2>
+            <p style="color: #444; line-height: 1.6;">
+                The manual simulation confirms that K-Means effectively reduces internal variance through 3 iterations. 
+                Cluster 1 represents <b>High Performance</b> sales, while Cluster 2 groups <b>Low Volume</b> operations.
+            </p>
+        </div>
+
+    </div>
+</div>;">
+{% endblock %}

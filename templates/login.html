@@ -3,29 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 
-<body>
+<body style="margin: 0; padding: 0;">
 
-<div class="login-wrapper">
-    <div class="login-card">
-        <h2>Welcome</h2>
+<div class="login-wrapper" style="
+    background: linear-gradient(135deg, #5de0e6 0%, #004d4d 100%); 
+    min-height: 100vh; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    font-family: 'Segoe UI', Arial, sans-serif;
+">
 
+    <div class="login-card" style="
+        background: #ffffff; 
+        width: 100%; 
+        max-width: 400px; 
+        border-radius: 30px; 
+        padding: 50px 40px; 
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        text-align: center;
+    ">
+        
+        <h2 style="color: #000000; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">
+            Welcome
+        </h2>
+        
         {% if error %}
-            <p style="color:red;">{{ error }}</p>
+            <p style="color: #e74c3c; font-size: 0.9rem; font-weight: 600; background: #fdeaea; padding: 10px; border-radius: 8px;">
+                {{ error }}
+            </p>
+        {% else %}
+            <p style="color: #666; font-size: 0.9rem; margin-bottom: 30px;">Please enter your details</p>
         {% endif %}
 
         <form method="POST" action="/login">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
+            <div style="margin-bottom: 20px; text-align: left;">
+                <label style="color: #333; font-size: 0.85rem; font-weight: 600; margin-left: 5px;">Username</label>
+                <input type="text" name="username" placeholder="Enter username" required style="
+                    width: 100%; 
+                    padding: 12px 15px; 
+                    margin-top: 5px;
+                    border: 2px solid #e0e0e0; 
+                    border-radius: 12px; 
+                    box-sizing: border-box;
+                    outline: none;
+                ">
+            </div>
 
-            <button type="submit">LOGIN</button>
+            <div style="margin-bottom: 30px; text-align: left;">
+                <label style="color: #333; font-size: 0.85rem; font-weight: 600; margin-left: 5px;">Password</label>
+                <input type="password" name="password" placeholder="••••••••" required style="
+                    width: 100%; 
+                    padding: 12px 15px; 
+                    margin-top: 5px;
+                    border: 2px solid #e0e0e0; 
+                    border-radius: 12px; 
+                    box-sizing: border-box;
+                    outline: none;
+                ">
+            </div>
+
+            <button type="submit" style="
+                width: 100%; 
+                padding: 15px; 
+                background: #12a5a5; 
+                color: #ffffff; 
+                border: none; 
+                border-radius: 12px; 
+                font-weight: bold; 
+                font-size: 1rem; 
+                cursor: pointer; 
+                box-shadow: 0 8px 15px rgba(18, 165, 165, 0.3);
+            ">
+                LOGIN
+            </button>
         </form>
 
-        <div class="login-extra">
-            <a href="#">Forgot your password?</a>
+        <div class="login-extra" style="margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px;">
+            <a href="#" style="color: #12a5a5; text-decoration: none; font-size: 0.85rem; font-weight: 600;">
+                Forgot your password?
+            </a>
         </div>
     </div>
 </div>
