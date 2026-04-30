@@ -7,8 +7,8 @@ MarkupSafe==2.1.5
 Werkzeug==3.0.3
 
 # --- Procesamiento de Datos y ML ---
-numpy
 pandas
+numpy
 scikit-learn
 scipy
 joblib
