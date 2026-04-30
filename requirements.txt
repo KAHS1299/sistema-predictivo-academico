@@ -1,23 +1,16 @@
-# --- Librerías Principales para Flask ---
 Flask==3.0.3
 gunicorn==22.0.0
 Jinja2==3.1.4
 ItsDangerous==2.2.0
 MarkupSafe==2.1.5
 Werkzeug==3.0.3
-
-# --- Procesamiento de Datos y ML ---
 pandas
 numpy
 scikit-learn
 scipy
 joblib
-openpyxl==3.1.2
-
-# --- Visualización ---
-matplotlib==3.8.0
-seaborn==0.13.2
-
-# --- Utilidades ---
-python-dateutil==2.9.0
-requests==2.32.3
+openpyxl
+matplotlib
+seaborn
+python-dateutil
+requests
